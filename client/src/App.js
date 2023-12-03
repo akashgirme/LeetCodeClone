@@ -17,7 +17,7 @@ import AdminLogin from './Components/AdminComponents/AdminLogin';
 import DeleteAdmin from './Components/AdminComponents/DeleteAdmin'
 import AddSolution from './Components/AdminComponents/AddSolution';
 import CodeExecution from './Components/CodeExecution';
-import './App.css';
+//import './App.css';
 
 
 function App() {

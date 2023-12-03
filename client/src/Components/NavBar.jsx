@@ -13,7 +13,7 @@ function NavBar() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand ><strong className='h3'>Code Sol</strong></Navbar.Brand>
+        <Navbar.Brand ><strong className='h3'>LeetCode Clone</strong></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto d-flex align-items-center">
