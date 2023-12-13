@@ -3,6 +3,9 @@ import { Table , Container} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import {backendUrl} from './constants'
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+
 
 function ProblemList() {
     const [problems, setProblems] = useState([]);
@@ -19,15 +22,15 @@ function ProblemList() {
 
 
   return (
-    <div className="d-flex justify-content-center">
-      <Container>
+    <Grid container className="d-flex justify-content-center">
+      <Grid item xs={11} md={11} lg={11}>
       <Table striped bordered hover>
       <thead>
         <tr>
-          <th width="5%">ID</th>
-          <th width="55%">Title</th>
-          <th width="20%">Solution</th>
-          <th width="20%">Difficulty</th>
+          <th width="5%"><Typography variant='h6'>ID</Typography></th>
+          <th width="55%"><Typography variant='h6'>Title</Typography></th>
+          <th width="20%"><Typography variant='h6'>Solution</Typography></th>
+          <th width="20%"><Typography variant='h6'>Difficulty</Typography></th>
         </tr>
       </thead>
      
@@ -35,22 +38,22 @@ function ProblemList() {
       {problems && problems.length > 0 ? (
         problems.map((prob, index) => (
               <tr>
-                <td>{prob.problemid}</td>
+                <td><Typography variant='subtitle1'>{prob.problemid}</Typography></td>
                 <Link to={`/problems/:${prob.problemid}`} className="d-flex align-items-center">
-                  <td>{prob.title}</td>
+                  <td><Typography variant='subtitle1'>{prob.title}</Typography></td>
                 </Link>
-                <td>Solution Link</td>
-                <td className={`${prob.difficulty}`} >{prob.difficulty}</td>
+                <td><Typography variant='subtitle1'>Solution Link</Typography></td>
+                <td><Typography variant='subtitle1'>{prob.difficulty}</Typography></td>
               </tr>
             ))) : (
               <tr>
-                <td colSpan="5">No problems available.</td>
+                <td colSpan="5"><Typography variant='h5'>No problems available.</Typography></td>
               </tr>
             )}
       </tbody>
     </Table>
-    </Container>
-    </div>
+    </Grid>
+    </Grid>
   )
 }
 
