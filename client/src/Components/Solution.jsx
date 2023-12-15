@@ -1,9 +1,10 @@
 import React from 'react'
-import { Row, Col, Container,Tabs, Tab } from 'react-bootstrap'
-import { useParams } from 'react-router'
-import { useState, useEffect } from 'react'
-import CodeExecution from './CodeExecution'
-import { backendUrl } from './constants'
+import { Row, Col, Container,Tabs, Tab } from 'react-bootstrap';
+import { useParams } from 'react-router';
+import { useState, useEffect } from 'react';
+import CodeExecution from './CodeExecution';
+import { backendUrl } from './constants';
+import Button from '@mui/material/Button';
 
 function Solution() {
     const { id } = useParams() ;
@@ -95,13 +96,13 @@ function Solution() {
                                     {solution && solution.length > 0 ? (<div>{solution.map((sol, index) => (
                                         <div><pre>{sol.solution_text}</pre></div>
                                         // <pre> For preserving text Format </pre> 
-                                    ))}</div>) : <button type='submit' onClick={fetchSolution}>Get Solution</button>}
+                                    ))}</div>) : <Button type='submit' variant='outlined' onClick={fetchSolution}>Get Solution</Button>}
                                 </div>
                             </Tab>
                             <Tab eventKey="submission" title="Submission">  {/* can we desabled with 'disabled' keyword */}
                             <div className='p-5'>
                                     {submission.code && submission.code.length > 0 ? ( <pre>{submission.code}</pre>)
-                                       : <button type='submit' onClick={fetchSubmission}>Get Submission</button>}
+                                       : <Button type='submit' variant='outlined' onClick={fetchSubmission}>Get Submission</Button>}
                             </div>
                             </Tab>
                             </Tabs>

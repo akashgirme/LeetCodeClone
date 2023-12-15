@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { backendUrl } from './constants';
+import Button from '@mui/material/Button';
 
 function CodeExecution(props) {
   const [code, setCode] = useState('');
@@ -143,8 +144,8 @@ function CodeExecution(props) {
             </div>
             <div className='d-flex flex-column'>
                 <ul className='d-flex align-items-center justify-content-end list-unstyled'>
-                    <li className='p-2'><Button variant="outline-info" onClick={executeCode}>Run</Button></li>
-                    <li className='p-2'><Button variant="success" onClick={submitCode}>Submit</Button></li>
+                    <li className='p-2'><Button variant="outlined" onClick={executeCode}>Run</Button></li>
+                    <li className='p-2'><Button variant="contained" onClick={submitCode}>Submit</Button></li>
                 </ul>
             </div>
             {/*<div>{testCases ? (testCases.map((testcase) => (<pre>{testcase.input}</pre>))): <p>No test Caes</p>}</div> */}
