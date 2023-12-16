@@ -14,6 +14,14 @@ app.use(jsonParser);
 const bcrypt = require('bcrypt');
 const db = require("./db");
 
+// Middleware Plugin
+//app.use(express.urlencoded({extended : false}))
+
+const userRouter = require('./routes/user');
+
+app.use('/api/users', userRouter);
+app.use('/api/users/register', userRouter);
+
 
 // Route To Add Solution for Tha Problem
 app.post('/addSolution/', (req, res) => {
@@ -499,7 +507,6 @@ app.delete('/deleteTestCase', (req, res) => {
 
 app.get("/users", (req, res) => {
   
-  // Query the database to retrieve all problems
   db.query('SELECT * FROM users', (err, results) => {
     if (err) {
       console.error('MySQL query error:', err);
