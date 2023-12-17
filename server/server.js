@@ -27,6 +27,12 @@ app.use('/api/users/register', userRouter);
 app.use('/api/users/login', userRouter);
 
 
+const problemRouter = require('./routes/problem');
+
+app.use('/api/problems', problemRouter);
+app.use('/api/problems/:id', problemRouter);
+
+
 // Route To Add Solution for Tha Problem
 app.post('/addSolution/', (req, res) => {
   const problemid = parseInt(req.body.problemid, 10);
