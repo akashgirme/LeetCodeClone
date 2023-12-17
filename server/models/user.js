@@ -1,4 +1,4 @@
-const db = require("../db");
+const db = require("../connection/database");
 
 const getUserFromDB = (callback) => {
     db.query('SELECT * FROM users', (err, result) => {
@@ -35,8 +35,22 @@ const registerUserToDB = (userData, hashedPassword, callback) => {
     });
 }
 
+const loginUserDB = (userData, callback) => {
+
+    db.query('SELECT * FROM users WHERE email = ?', [userData.email], (err, result) => {
+        if(err){
+            console.error('Error in loginUserDB query:', err);
+            return callback(err, null);
+        } else {
+            return callback(null, result);
+        }
+    });
+}
+
+
 module.exports = {
     getUserFromDB,
     checkExistingUserFromDB,
-    registerUserToDB
+    registerUserToDB,
+    loginUserDB
 }

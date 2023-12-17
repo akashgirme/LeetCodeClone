@@ -12,15 +12,15 @@ const cors = require("cors");
 app.use(cors());
 app.use(jsonParser);
 const bcrypt = require('bcrypt');
-const db = require("./db");
+const db = require("./connection/database");
 
-// Middleware Plugin
-//app.use(express.urlencoded({extended : false}))
+
 
 const userRouter = require('./routes/user');
 
 app.use('/api/users', userRouter);
 app.use('/api/users/register', userRouter);
+app.use('/api/users/login', userRouter);
 
 
 // Route To Add Solution for Tha Problem
