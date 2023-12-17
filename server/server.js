@@ -14,7 +14,11 @@ app.use(jsonParser);
 const bcrypt = require('bcrypt');
 const db = require("./connection/database");
 
+const cookieParser = require('cookie-parser');
+const { restrictToLoggedInUserOnly } = require('./middleware/auth');
 
+
+app.use(cookieParser());
 
 const userRouter = require('./routes/user');
 

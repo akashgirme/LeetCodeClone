@@ -12,11 +12,11 @@ function setUserAuth(user){
     );
 }
 
-function getUserAuth(token) {
-    if(!token) return null;
+function getUserAuth(userJwtToken) {
+    if(!userJwtToken) return null;
 
     try{
-        return jwt.verify(token, jwtSecretKey);
+        return jwt.verify(userJwtToken, jwtSecretKey);
     } catch (error) {
         return null;
     }

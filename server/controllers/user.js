@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const auth = require('../service/auth');
 
 
-const getUser = (req, res) => {
+const handleGetUser = (req, res) => {
     userModel.getUserFromDB((err, result)=> {
         if(err){
             return res.status(500).json({error:'Internal Server Error'});
@@ -13,7 +13,7 @@ const getUser = (req, res) => {
     })
 }
 
-const registerUser = (req, res) => {
+const handleRegisterUser = (req, res) => {
     const userData = req.body;
 
     userModel.checkExistingUserFromDB(userData, (err, result) => {
@@ -42,7 +42,7 @@ const registerUser = (req, res) => {
 }
 
 
-const loginUser = (req, res) => {
+const handleLoginUser = (req, res) => {
     const userData = req.body;
 
     userModel.loginUserDB(userData, (err, result) => {
@@ -62,7 +62,13 @@ const loginUser = (req, res) => {
     
             if(isMatch){
               const jwtToken = auth.setUserAuth(user);
-              return res.json({ jwtToken });
+            
+              res.cookie('jwtToken', jwtToken, {
+                httpOnly: true, // Cookie is accessible only by the web server
+                sameSite: 'Strict', // Protect against CSRF attacks
+              });
+              return res.json({ jwtToken , message:'Login Successful'});
+        
             } else {
                 return res.status(401).json({ message: "Incorrect Password" });
             }
@@ -71,7 +77,7 @@ const loginUser = (req, res) => {
 }
 
 module.exports ={
-    getUser,
-    registerUser,
-    loginUser
+    handleGetUser,
+    handleRegisterUser,
+    handleLoginUser,
 }
