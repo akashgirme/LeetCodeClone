@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('email');
+    localStorage.removeItem("email");
     localStorage.clear();
   };
 

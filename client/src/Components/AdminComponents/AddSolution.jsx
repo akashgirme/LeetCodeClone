@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { backendUrl } from '../constants';
+import React, { useState } from "react";
+import { backendUrl } from "../constants";
 
 function AddSolution() {
-  const [problemid, setProblemId] = useState('');
-  const [solution_text, setSolutionText] = useState('');
-  const [error, setError] = useState('');
+  const [problemid, setProblemId] = useState("");
+  const [solution_text, setSolutionText] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = { problemid:problemid, solution_text:solution_text };
+    const data = { problemid: problemid, solution_text: solution_text };
 
     try {
       const response = await fetch(`${backendUrl}/addSolution`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
@@ -26,11 +26,11 @@ function AddSolution() {
         setError(result.msg);
       } else {
         // Handle errors here
-        setError('Failed to add solution.');
+        setError("Failed to add solution.");
       }
     } catch (error) {
-      console.error('Error:', error);
-      setError('Failed to add solution.');
+      console.error("Error:", error);
+      setError("Failed to add solution.");
     }
   };
 
