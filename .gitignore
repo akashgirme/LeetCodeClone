@@ -26,5 +26,6 @@ yarn-error.log*
 #server
 .env
 /server/logs/
-
+prettierrc.json
+.eslintrc.json
 

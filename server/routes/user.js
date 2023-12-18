@@ -1,15 +1,14 @@
-const express = require('express');
-const userController = require('../controllers/user');
+const express = require("express");
+const userController = require("../controllers/user");
 
 const router = express.Router();
 
-const { restrictToLoggedInUserOnly } = require('../middleware/auth');
+const { restrictToLoggedInUserOnly } = require("../middleware/auth");
 
+router.get("/", restrictToLoggedInUserOnly, userController.handleGetUser);
 
-router.get('/', restrictToLoggedInUserOnly, userController.handleGetUser);
+router.post("/register", userController.handleRegisterUser);
 
-router.post('/register',userController.handleRegisterUser);
-
-router.post('/login', userController.handleLoginUser);
+router.post("/login", userController.handleLoginUser);
 
 module.exports = router;
