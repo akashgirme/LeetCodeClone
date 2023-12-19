@@ -20,7 +20,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    if (email == "" || password == "") {
+    if (email === "" || password === "") {
       setError("Email or Password Should not be empty");
       return;
     }
