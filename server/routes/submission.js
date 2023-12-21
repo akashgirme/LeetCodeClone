@@ -1,11 +1,15 @@
-const express = require('express');
+const express = require("express");
 
 const router = express.Router();
 
-const submissionController = require('../controllers/submission');
+const submissionController = require("../controllers/submission");
 
 const { restrictToLoggedInUserOnly } = require("../middleware/auth");
 
-router.post('/', restrictToLoggedInUserOnly, submissionController.handleCodeSubmission);
+router.post(
+  "/",
+  restrictToLoggedInUserOnly,
+  submissionController.handleCodeSubmission,
+);
 
 module.exports = router;

@@ -14,32 +14,26 @@ const db = require("./connection/database");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-const userRouter = require('./routes/user');
+const userRouter = require("./routes/user");
 
 app.use("/api/user", userRouter);
 app.use("/api/user/register", userRouter);
 app.use("/api/user/login", userRouter);
 
-const problemRouter = require('./routes/problem');
+const problemRouter = require("./routes/problem");
 
 app.use("/api/problem", problemRouter);
 app.use("/api/problem/:id", problemRouter);
-app.use('/api/problem/solution', problemRouter);
+app.use("/api/problem/solution", problemRouter);
 app.use("/api/problem/deleteProblem", problemRouter);
 
-const testCasesRouter = require('./routes/testcases');
+const testCasesRouter = require("./routes/testcases");
 
-app.use('/api/testcases', testCasesRouter);
+app.use("/api/testcases", testCasesRouter);
 
+const submissionRouter = require("./routes/submission");
 
-const submissionRouter = require('./routes/submission');
-
-app.use('/api/submitCode', submissionRouter);
-
-
-
-
-
+app.use("/api/submitCode", submissionRouter);
 
 // Route To Add Solution for The Problem
 

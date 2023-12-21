@@ -6,7 +6,11 @@ const { restrictToLoggedInUserOnly } = require("../middleware/auth");
 
 router.get("/", problemController.handleGetProblems);
 router.get("/:id", problemController.handleGetProblemByID);
-router.post('/solution', restrictToLoggedInUserOnly, problemController.handleGetProblemSolution);
+router.post(
+  "/solution",
+  restrictToLoggedInUserOnly,
+  problemController.handleGetProblemSolution,
+);
 router.post("/deleteProblem", problemController.handleDeleteProblem);
 
 module.exports = router;

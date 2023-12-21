@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const jwtSecretKey =  process.env.JWT_SECRET_KEY;
+const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
 function setUserAuth(user) {
   return jwt.sign(
@@ -22,7 +22,7 @@ function getUserAuth(jwtToken) {
   }
 }
 
-function getEmailFromJWT(jwtToken){
+function getEmailFromJWT(jwtToken) {
   if (!jwtToken) return null;
 
   try {
@@ -31,7 +31,6 @@ function getEmailFromJWT(jwtToken){
 
     const email = decodedToken.payload.email;
     return email;
-
   } catch (error) {
     return null;
   }
