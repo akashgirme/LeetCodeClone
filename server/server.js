@@ -18,17 +18,30 @@ const { restrictToLoggedInUserOnly } = require("./middleware/auth");
 
 app.use(cookieParser());
 
-const userRouter = require("./routes/user");
+const userRouter = require('./routes/user');
 
 app.use("/api/users", userRouter);
 app.use("/api/users/register", userRouter);
 app.use("/api/users/login", userRouter);
 
-const problemRouter = require("./routes/problem");
+const problemRouter = require('./routes/problem');
 
 app.use("/api/problems", problemRouter);
 app.use("/api/problems/:id", problemRouter);
 app.use("/api/problems/deleteProblem", problemRouter);
+
+const testCasesRouter = require('./routes/testcases');
+
+app.use('/api/testcases', testCasesRouter);
+
+
+const submissionRouter = require('./routes/submission');
+
+app.use('/api/submitCode', submissionRouter);
+
+
+
+
 
 // Route To Add Solution for Tha Problem
 app.post("/addSolution/", (req, res) => {

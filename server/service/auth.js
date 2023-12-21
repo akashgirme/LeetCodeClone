@@ -5,7 +5,6 @@ const jwtSecretKey = "LeetCodeClone@akash";
 function setUserAuth(user) {
   return jwt.sign(
     {
-      _id: user.user_id,
       email: user.email,
     },
     jwtSecretKey,
@@ -22,7 +21,23 @@ function getUserAuth(userJwtToken) {
   }
 }
 
+function getEmailFromJWT(jwtToken){
+  if (!jwtToken) return null;
+
+  try {
+    const decodedToken = jwt.decode(jwtToken, { complete: true });
+    if (!decodedToken) return null;
+
+    const email = decodedToken.payload.email;
+    return email;
+
+  } catch (error) {
+    return null;
+  }
+}
+
 module.exports = {
   setUserAuth,
   getUserAuth,
+  getEmailFromJWT,
 };
