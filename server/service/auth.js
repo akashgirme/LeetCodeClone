@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-const jwtSecretKey = "LeetCodeClone@akash";
+const jwtSecretKey =  process.env.JWT_SECRET_KEY;
 
 function setUserAuth(user) {
   return jwt.sign(
@@ -11,11 +12,11 @@ function setUserAuth(user) {
   );
 }
 
-function getUserAuth(userJwtToken) {
-  if (!userJwtToken) return null;
+function getUserAuth(jwtToken) {
+  if (!jwtToken) return null;
 
   try {
-    return jwt.verify(userJwtToken, jwtSecretKey);
+    return jwt.verify(jwtToken, jwtSecretKey);
   } catch (error) {
     return null;
   }

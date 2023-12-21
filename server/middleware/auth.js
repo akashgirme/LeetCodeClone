@@ -1,14 +1,15 @@
 const { getUserAuth } = require("../service/auth");
 
 async function restrictToLoggedInUserOnly(req, res, next) {
-  const userJwtToken = req.cookies.jwtToken;
+  const jwtToken = req.cookies.jwtToken;
 
-  if (!userJwtToken)
-    return res.redirect("/users/login?message=Please%20Login%21%20to%20Access");
+  if (!jwtToken){
+    return res.json({message:'Error! Please re-Login to get Access'});
+  }
 
-  const user = getUserAuth(userJwtToken);
+  const user = getUserAuth(jwtToken);
 
-  if (!user) return res.redirect("/users/login");
+  if (!user) return res.redirect("/user/login");
 
   req.user = user;
 

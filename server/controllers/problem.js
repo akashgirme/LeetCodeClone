@@ -24,6 +24,21 @@ const handleGetProblemByID = (req, res) => {
   });
 };
 
+
+const handleGetProblemSolution = (req, res) => {
+  const problemId = parseInt(req.body.problemId);
+
+  console.log(problemId)
+
+  problemModel.getSolutionFromDB(problemId, (err, result) => {
+    if(err){
+      return res.status(500).json({message:'Internal Server Error'});
+    } else {
+      return res.status(200).json(result);
+    }
+  })
+}
+
 const handleDeleteProblem = (req, res) => {
   const problemId = parseInt(req.body.problemId);
 
@@ -64,5 +79,6 @@ const handleDeleteProblem = (req, res) => {
 module.exports = {
   handleGetProblems,
   handleGetProblemByID,
+  handleGetProblemSolution,
   handleDeleteProblem,
 };

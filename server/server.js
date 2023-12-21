@@ -2,11 +2,9 @@ const express = require("express");
 const app = express();
 const port = 5000;
 var jwt = require("jsonwebtoken");
-const { auth } = require("./middleware");
 const JWT_SECRET = "secret";
 const bodyParser = require("body-parser");
 var jsonParser = bodyParser.json();
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const cors = require("cors");
 app.use(cors());
 app.use(jsonParser);
@@ -14,21 +12,20 @@ const bcrypt = require("bcrypt");
 const db = require("./connection/database");
 
 const cookieParser = require("cookie-parser");
-const { restrictToLoggedInUserOnly } = require("./middleware/auth");
-
 app.use(cookieParser());
 
 const userRouter = require('./routes/user');
 
-app.use("/api/users", userRouter);
-app.use("/api/users/register", userRouter);
-app.use("/api/users/login", userRouter);
+app.use("/api/user", userRouter);
+app.use("/api/user/register", userRouter);
+app.use("/api/user/login", userRouter);
 
 const problemRouter = require('./routes/problem');
 
-app.use("/api/problems", problemRouter);
-app.use("/api/problems/:id", problemRouter);
-app.use("/api/problems/deleteProblem", problemRouter);
+app.use("/api/problem", problemRouter);
+app.use("/api/problem/:id", problemRouter);
+app.use('/api/problem/solution', problemRouter);
+app.use("/api/problem/deleteProblem", problemRouter);
 
 const testCasesRouter = require('./routes/testcases');
 
@@ -43,7 +40,9 @@ app.use('/api/submitCode', submissionRouter);
 
 
 
-// Route To Add Solution for Tha Problem
+
+// Route To Add Solution for The Problem
+
 app.post("/addSolution/", (req, res) => {
   const problemid = parseInt(req.body.problemid, 10);
   const solution_text = req.body.solution_text;

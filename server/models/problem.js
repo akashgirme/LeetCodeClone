@@ -24,6 +24,21 @@ const getProblemsByIDFromDB = (problemId, callback) => {
   );
 };
 
+const getSolutionFromDB = (problemId, callback) => {
+  db.query('SELECT * FROM solutions WHERE problemid = ?',
+    [problemId],
+    (getSolutionErr, getSolutionResult) => {
+      if (getSolutionErr) {
+        console.log('MySQL query error' ,getSolutionErr);
+        return callback(getSolutionErr, null);
+      } else {
+        console.log(getSolutionResult)
+        return callback(null, getSolutionResult);
+      }
+
+    });
+}
+
 const deleteTestCasesByProblemIdFromDB = (problemId, callback) => {
   db.query(
     "SELECT * FROM problems WHERE problemid = ?",
@@ -96,6 +111,7 @@ const deleteProblemFromDB = (problemId, callback) => {
 module.exports = {
   getProblemsFromDB,
   getProblemsByIDFromDB,
+  getSolutionFromDB,
   deleteTestCasesByProblemIdFromDB,
   deleteSubmissionFromDB,
   deleteProblemFromDB,
