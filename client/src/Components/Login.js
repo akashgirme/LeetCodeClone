@@ -1,11 +1,10 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { useAuth } from "./AuthContext";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { backendUrl } from "./constants";
-import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -26,7 +25,7 @@ const Login = () => {
     }
     try {
       // Perform the login logic (e.g., make an API request)
-      const response = await fetch(`${backendUrl}/login`, {
+      const response = await fetch(`${backendUrl}/api/user/login`, {
         method: "POST",
 
         headers: {
@@ -41,7 +40,8 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-        const token = data.token;
+        const token = data.jwtToken;
+        Cookies.set("jwtToken", token);
         localStorage.setItem("email", email);
         login(email, token); // Set the user and token upon successful login
         setError(null); // Clear any previous errors

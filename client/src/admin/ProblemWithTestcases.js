@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
-import AdminPanel from "../AdminPanel";
-import { backendUrl } from "../constants";
+import AdminPanel from "./AdminPanel";
+import { backendUrl } from "../Components/constants";
 
 const AddProblemWithTestCasesForm = () => {
   const [title, setTitle] = useState("");
@@ -10,12 +10,13 @@ const AddProblemWithTestCasesForm = () => {
   const [exampleInput, setExampleInput] = useState("");
   const [exampleOutput, setExampleOutput] = useState("");
   const [exampleExplanation, setExampleExplanation] = useState("");
+  const [error, setError] = useState("");
   const [testCases, setTestCases] = useState([
-    { Input: "", ExpectedOutput: "" },
+    { input: "", expectedOutput: "" },
   ]);
 
   const handleAddTestCase = () => {
-    setTestCases([...testCases, { Input: "", ExpectedOutput: "" }]);
+    setTestCases([...testCases, { input: "", expectedOutput: "" }]);
   };
 
   const handleRemoveTestCase = (index) => {
@@ -30,37 +31,40 @@ const AddProblemWithTestCasesForm = () => {
     // Remove empty test cases before submitting
     const filteredTestCases = testCases.filter(
       (testCase) =>
-        testCase.Input.trim() !== "" || testCase.ExpectedOutput.trim() !== "",
+        testCase.input.trim() !== "" || testCase.expectedOutput.trim() !== "",
     );
 
     const data = {
       title,
       difficulty,
       description,
-      exampleinput: exampleInput,
-      exampleoutput: exampleOutput,
-      exampleexplanation: exampleExplanation,
+      exampleInput: exampleInput,
+      exampleOutput: exampleOutput,
+      exampleExplanation: exampleExplanation,
       testCases: filteredTestCases,
     };
 
     try {
-      const response = await fetch(`${backendUrl}/addProblemWithTestCases`, {
+      const response = await fetch(`${backendUrl}/api/admin/problem/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(data),
       });
 
       if (response.ok) {
         const result = await response.json();
-        console.log(result.msg); // Log the success message
+        console.log(result.message); // Log the success message
+        setError(result.message);
       } else {
         // Handle errors here
         console.error("Error:", response.statusText);
       }
     } catch (error) {
       console.error("Error:", error);
+      setError("Error in Adding Problem");
     }
   };
 
@@ -131,19 +135,19 @@ const AddProblemWithTestCasesForm = () => {
                 <div key={index}>
                   <label>Input:</label>
                   <textarea
-                    value={testCase.Input}
+                    value={testCase.input}
                     onChange={(e) => {
                       const updatedTestCases = [...testCases];
-                      updatedTestCases[index].Input = e.target.value;
+                      updatedTestCases[index].input = e.target.value;
                       setTestCases(updatedTestCases);
                     }}
                   />
                   <label>Expected Output:</label>
                   <textarea
-                    value={testCase.ExpectedOutput}
+                    value={testCase.expectedOutput}
                     onChange={(e) => {
                       const updatedTestCases = [...testCases];
-                      updatedTestCases[index].ExpectedOutput = e.target.value;
+                      updatedTestCases[index].expectedOutput = e.target.value;
                       setTestCases(updatedTestCases);
                     }}
                   />
@@ -162,6 +166,7 @@ const AddProblemWithTestCasesForm = () => {
             </form>
           </div>
         </Col>
+        <div>{error}</div>
       </Row>
     </Container>
   );

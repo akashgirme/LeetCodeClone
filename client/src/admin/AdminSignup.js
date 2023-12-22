@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import { backendUrl } from "../constants";
+import { backendUrl } from "../Components/constants";
 
 const AdminSignup = () => {
   const [email, setEmail] = useState("");

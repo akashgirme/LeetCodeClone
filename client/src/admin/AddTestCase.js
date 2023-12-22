@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container } from "react-bootstrap";
-import { backendUrl } from "../constants";
+import { backendUrl } from "../Components/constants";
 
 const AddTestCase = () => {
   const [problemId, setProblemId] = useState("");

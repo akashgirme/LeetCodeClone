@@ -5,8 +5,10 @@ var jwt = require("jsonwebtoken");
 const JWT_SECRET = "secret";
 const bodyParser = require("body-parser");
 var jsonParser = bodyParser.json();
+require("dotenv").config();
 const cors = require("cors");
-app.use(cors());
+const clinetUrl = process.env.CLIENT_URL;
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(jsonParser);
 const bcrypt = require("bcrypt");
 const db = require("./connection/database");
@@ -34,6 +36,26 @@ app.use("/api/testcases", testCasesRouter);
 const submissionRouter = require("./routes/submission");
 
 app.use("/api/submitCode", submissionRouter);
+
+/// Admin Route
+
+const adminAuthRouter = require("./admin/routes/auth");
+
+//app.use('/api/admin', adminAuthRouter);
+app.use("/api/admin/auth", adminAuthRouter);
+
+const adminProblemRouter = require("./admin/routes/problem");
+
+app.use("/api/admin/problem", adminProblemRouter);
+
+// Route for TestCases
+
+const adminTestCaseRouter = require("./admin/routes/testcases");
+
+app.use("/api/admin/testcases", adminTestCaseRouter);
+app.use("/api/admin/testcases/testCasesForProblem", adminTestCaseRouter);
+app.use("/api/admin/testcases/addTestCases", adminTestCaseRouter);
+app.use("/api/admin/testcase/deleteTestCases", adminTestCaseRouter);
 
 // Route To Add Solution for The Problem
 

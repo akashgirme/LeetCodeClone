@@ -7,15 +7,15 @@ import Home from "./Components/Home";
 import Signup from "./Components/Signup";
 import Solution from "./Components/Solution";
 import Notfound from "./Components/Notfound";
-import AdminPanel from "./Components/AdminPanel";
-import Problem from "./Components/AdminComponents/Problem";
-import Users from "./Components/AdminComponents/Users";
+import AdminPanel from "./admin/AdminPanel";
+import Problem from "./admin/Problem";
+import Users from "./admin/Users";
 import { AuthProvider } from "./Components/AuthContext";
-import AddProblemWithTestCasesForm from "./Components/AdminComponents/ProblemWithTestcases";
-import TestCase from "./Components/AdminComponents/Testcase";
-import AdminLogin from "./Components/AdminComponents/AdminLogin";
-import DeleteAdmin from "./Components/AdminComponents/DeleteAdmin";
-import AddSolution from "./Components/AdminComponents/AddSolution";
+import AddProblemWithTestCasesForm from "./admin/ProblemWithTestcases";
+import TestCase from "./admin/Testcase";
+import AdminLogin from "./admin/AdminLogin";
+import DeleteAdmin from "./admin/DeleteAdmin";
+import AddSolution from "./admin/AddSolution";
 import CodeExecution from "./Components/CodeExecution";
 import "@mui/material/styles";
 
@@ -31,7 +31,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/solution" element={<Solution />} />
           <Route path="/problems/:id" element={<Solution />} />
-          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/api/admin" element={<AdminPanel />} />
           <Route path="/admin/problem" element={<Problem />} />
           <Route path="/admin/user" element={<Users />} />
           <Route
@@ -39,7 +39,7 @@ function App() {
             element={<AddProblemWithTestCasesForm />}
           />
           <Route path="/admin/testcases" element={<TestCase />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/api/admin/login" element={<AdminLogin />} />
           <Route path="/admin/deleteAdmin" element={<DeleteAdmin />} />
           <Route path="/admin/addsolution" element={<AddSolution />} />
           <Route path="/code/test" element={<CodeExecution />} />

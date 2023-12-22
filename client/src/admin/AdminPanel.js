@@ -5,18 +5,18 @@ import { Container } from "react-bootstrap";
 
 function AdminPanel() {
   const [authenticated, setAuthenticated] = useState(
-    !!localStorage.getItem("admin-token"),
+    !!localStorage.getItem("adminJwtToken"),
   );
   const navigate = useNavigate();
   const handleLogout = () => {
     // Remove the token from local storage
-    localStorage.removeItem("admin-token");
+    localStorage.removeItem("adminJwtToken");
     // Update the authentication state
     setAuthenticated(false);
   };
 
   if (!authenticated) {
-    navigate("/admin/login");
+    navigate("/api/admin/login");
   }
 
   return (
@@ -30,26 +30,24 @@ function AdminPanel() {
                 <Link to="/admin/problem">Delete Problem</Link>
               </li>
               <li>
-                <Link to="/admin/user">Delete User</Link>
+                <Link to="/admin/user">Users</Link>
               </li>
               <li>
-                <Link to="/admin/deleteAdmin">Add or Remove Admin User</Link>
+                <Link to="/admin/addSolution">Add Solution to Problem</Link>
               </li>
               <li>
                 <Link to="/admin/problemWithTestCases">
                   Add Problem With TestCases
                 </Link>
               </li>
-              <li>
-                <Link to="/admin/addsolution">Add Solution for Problem</Link>
-              </li>
+
               <li>
                 <Link to="/admin/testcases">Add & Delete Testcases</Link>
               </li>
             </ul>
           </div>
         ) : (
-          <Link to="/admin/login">
+          <Link to="/api/admin/login">
             <h5>Login as admin</h5>
           </Link>
         )}

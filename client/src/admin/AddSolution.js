@@ -1,29 +1,33 @@
 import React, { useState } from "react";
-import { backendUrl } from "../constants";
+import { backendUrl } from "../Components/constants";
 
 function AddSolution() {
-  const [problemid, setProblemId] = useState("");
-  const [solution_text, setSolutionText] = useState("");
+  const [problemId, setProblemId] = useState("");
+  const [solution, setSolution] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = { problemid: problemid, solution_text: solution_text };
+    const data = { problemId: problemId, solution: solution };
 
     try {
-      const response = await fetch(`${backendUrl}/addSolution`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${backendUrl}/api/admin/problem/addSolution`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
 
       if (response.ok) {
         const result = await response.json();
-        console.log(result.msg); // Log the success message
-        setError(result.msg);
+        console.log(result.message); // Log the success message
+        setError(result.message);
       } else {
         // Handle errors here
         setError("Failed to add solution.");
@@ -42,7 +46,7 @@ function AddSolution() {
           <label>Problem ID:</label>
           <input
             type="number"
-            value={problemid}
+            value={problemId}
             onChange={(e) => setProblemId(e.target.value)}
             required
           />
@@ -50,8 +54,8 @@ function AddSolution() {
         <div>
           <label>Solution Text:</label>
           <textarea
-            value={solution_text}
-            onChange={(e) => setSolutionText(e.target.value)}
+            value={solution}
+            onChange={(e) => setSolution(e.target.value)}
             required
           />
         </div>

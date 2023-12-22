@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Col, Row, Table, Container } from "react-bootstrap";
-import AdminPanel from "../AdminPanel";
-import { backendUrl } from "../constants";
+import AdminPanel from "./AdminPanel";
+import { backendUrl } from "../Components/constants";
 
 function Problem() {
   const [problemid, setProblemId] = useState("");

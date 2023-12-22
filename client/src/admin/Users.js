@@ -1,32 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Table, Col, Row, Container } from "react-bootstrap";
-import AdminPanel from "../AdminPanel";
-import AdminSignup from "./AdminSignup";
-import { backendUrl } from "../constants";
+import AdminPanel from "./AdminPanel";
+import { backendUrl } from "../Components/constants";
 
 function Users() {
-  const [admin, setAdmin] = useState();
-  const [adminId, setAdminId] = useState();
+  const [users, setUsers] = useState();
+  const [user_id, setUser_id] = useState();
   const [error, setError] = useState();
 
-  const DeleteAdmin = async () => {
+  const DeleteUser = async () => {
     try {
-      const response = await fetch(`${backendUrl}/deleteAdmin`, {
+      const response = await fetch(`${backendUrl}/deleteUser`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
 
         body: JSON.stringify({
-          adminId: adminId,
+          user_id: user_id,
         }),
       });
-
       if (response.ok) {
-        setAdminId(""); // Reset the input field
-        setError("Admin deleted successfully");
+        setUser_id(""); // Reset the input field
+        setError("User deleted successfully");
         // Reload the problem list
-        fetchAdmins();
+        fetchUsers();
         // Clear the error message after a certain delay (e.g., 3000 milliseconds)
         setTimeout(() => setError(""), 2000);
       } else {
@@ -35,24 +33,28 @@ function Users() {
         // Clear the error message after a certain delay (e.g., 3000 milliseconds)
         setTimeout(() => setError(""), 2000);
       }
+
+      const data = await response.json();
+      setError(data.msg);
+      fetchUsers();
     } catch (error) {
       console.error("Error while Problem Adding:", error);
     }
   };
 
-  const fetchAdmins = () => {
+  const fetchUsers = () => {
     // Fetch data from the server when the component mounts
-    fetch(`${backendUrl}/admins`, {
+    fetch(`${backendUrl}/users`, {
       method: "GET",
     })
       .then((response) => response.json())
-      .then((data) => setAdmin(data))
+      .then((data) => setUsers(data))
       .catch((error) => console.error("Error fetching data:", error));
   };
 
   useEffect(() => {
     // Initial load of the problem list
-    fetchAdmins();
+    fetchUsers();
   }, []);
 
   return (
@@ -60,22 +62,21 @@ function Users() {
       <Row>
         <Col md sm lg="4">
           <AdminPanel />
-          <AdminSignup />
           <h5>{error}</h5>
-          <h5>Delete Admin</h5>
+          <h5>Delete User</h5>
           <div className="subform">
-            <label htmlFor="delete">Enter AdminId to delete Admin</label>
+            <label htmlFor="delete">Enter User_Id to delete User</label>
             <input
               onChange={(e) => {
-                setAdminId(e.target.value);
+                setUser_id(e.target.value);
               }}
               type="number"
-              name="adminId"
-              placeholder="Enter AdminId"
+              name="user_id"
+              placeholder="Enter User Id"
             />
           </div>
-          <button type="submit" onClick={DeleteAdmin}>
-            Delete Admin
+          <button type="submit" onClick={DeleteUser}>
+            Delete User
           </button>
         </Col>
         <Col>
@@ -86,23 +87,21 @@ function Users() {
                   <thead>
                     <tr>
                       <th width="5%">ID</th>
-                      <th>Name</th>
                       <th width="55%">Email/Username</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    {admin && admin.length > 0 ? (
-                      admin.map((ad, index) => (
+                    {users && users.length > 0 ? (
+                      users.map((user, index) => (
                         <tr>
-                          <td>{ad.adminId}</td>
-                          <td>{ad.name}</td>
-                          <td>{ad.email}</td>
+                          <td>{user.user_id}</td>
+                          <td>{user.email}</td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="5">No Admin available.</td>
+                        <td colSpan="5">No problems available.</td>
                       </tr>
                     )}
                   </tbody>

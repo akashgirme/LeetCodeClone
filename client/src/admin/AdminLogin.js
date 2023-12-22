@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { Container } from "react-bootstrap";
-import { backendUrl } from "../constants";
+import { backendUrl } from "../Components/constants";
+import Cookies from "js-cookie";
 
 function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ function AdminLogin() {
   const handleLogin = async () => {
     // Make a POST request to your server for admin authentication
     try {
-      const response = await fetch(`${backendUrl}/admin-login`, {
+      const response = await fetch(`${backendUrl}/api/admin/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,17 +22,16 @@ function AdminLogin() {
       });
 
       if (response.ok) {
-        // Admin is authenticated
-        // You can store a token or session on the client here
-        // Redirect the user to the admin panel
-        const json = await response.json();
-        localStorage.setItem("admin-token", json.token);
-        navigate("/admin");
-        window.location.href = "/admin"; // Replace with your admin panel route
-      } else {
-        // Handle login errors
         const data = await response.json();
-        setError(data.message);
+        const token = data.adminJwtToken;
+        Cookies.set("adminJwtToken", token);
+        localStorage.setItem("adminEmail", email);
+        localStorage.setItem("adminJwtToken", token);
+        setError(null); // Clear any previous errors
+        navigate("/api/admin");
+        window.location.href = "/api/admin"; // Replace with your admin panel route
+      } else {
+        setError("Invalid email or password");
       }
     } catch (error) {
       setError("An error occurred while logging in.");

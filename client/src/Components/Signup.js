@@ -20,7 +20,7 @@ const Signup = () => {
       return;
     }
 
-    const response = await fetch(`${backendUrl}/signup`, {
+    const response = await fetch(`${backendUrl}/api/user/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,8 +31,12 @@ const Signup = () => {
       }),
     });
 
-    const json = await response.json();
-    console.log(json);
+    if (response.ok) {
+      const message = await response.json();
+      setError(message);
+
+      console.log(message);
+    }
 
     // Reset The Form After Operation
     setEmail("");

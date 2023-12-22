@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { Container, Table, Row, Col } from "react-bootstrap";
-import AdminPanel from "../AdminPanel";
+import AdminPanel from "./AdminPanel";
 import AddTestCase from "./AddTestCase";
-import { backendUrl } from "../constants";
+import { backendUrl } from "../Components/constants";
 
 function TestCase() {
-  const [testcaseid, setTestCaseId] = useState("");
+  const [testCaseId, setTestCaseId] = useState("");
   const [error, setError] = useState("");
   const [TestCases, setTestCases] = useState();
 
   const deleteTestCase = async () => {
     try {
-      const response = await fetch(`${backendUrl}/deleteTestCase`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${backendUrl}/api/admin/testcases/deleteTestCases`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            testCaseId: testCaseId,
+          }),
         },
-        body: JSON.stringify({
-          testcaseid: testcaseid,
-        }),
-      });
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -39,8 +43,9 @@ function TestCase() {
 
   const fetchTestCases = () => {
     // Fetch data from the server when the component mounts
-    fetch(`${backendUrl}/testcases`, {
+    fetch(`${backendUrl}/api/admin/testcases`, {
       method: "GET",
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => {
