@@ -27,11 +27,12 @@ const AddTestCase = () => {
     };
 
     try {
-      const response = await fetch(`${backendUrl}/addTestCasesForProblem`, {
+      const response = await fetch(`${backendUrl}/api/admin/testcases/addTestCases`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(data),
       });
 

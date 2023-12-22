@@ -28,8 +28,8 @@ function AdminLogin() {
         localStorage.setItem("adminEmail", email);
         localStorage.setItem("adminJwtToken", token);
         setError(null); // Clear any previous errors
-        navigate("/api/admin");
-        window.location.href = "/api/admin"; // Replace with your admin panel route
+        navigate("/admin");
+        window.location.href = "/admin"; // Replace with your admin panel route
       } else {
         setError("Invalid email or password");
       }

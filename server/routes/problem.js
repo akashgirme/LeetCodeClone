@@ -11,6 +11,6 @@ router.post(
   restrictToLoggedInUserOnly,
   problemController.handleGetProblemSolution,
 );
-router.post("/deleteProblem", problemController.handleDeleteProblem);
+
 
 module.exports = router;

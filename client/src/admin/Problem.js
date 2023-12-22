@@ -5,34 +5,37 @@ import AdminPanel from "./AdminPanel";
 import { backendUrl } from "../Components/constants";
 
 function Problem() {
-  const [problemid, setProblemId] = useState("");
+  const [problemId, setProblemId] = useState("");
   const [problems, setProblems] = useState([]);
   const [error, setError] = useState("");
 
   const DeleteProblem = async () => {
     try {
-      const response = await fetch(`${backendUrl}/deleteProblem`, {
-        method: "DELETE",
+      const response = await fetch(`${backendUrl}/api/admin/problem/delete`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
-          problemid: problemid,
+          problemId: problemId,
         }),
       });
 
       if (response.ok) {
-        // Problem is deleted successfully
-        setProblemId(""); // Reset the input field
+        
+        setProblemId(""); 
         setError("Problem deleted successfully");
-        // Reload the problem list
+        
         fetchProblems();
-        // Clear the error message after a certain delay (e.g., 3000 milliseconds)
+       
         setTimeout(() => setError(""), 2000);
+
       } else {
+
         const data = await response.json();
         setError(data.msg);
-        // Clear the error message after a certain delay (e.g., 3000 milliseconds)
+       
         setTimeout(() => setError(""), 2000);
       }
     } catch (error) {
@@ -41,8 +44,8 @@ function Problem() {
   };
 
   const fetchProblems = () => {
-    // Fetch data from the server to update the problem list
-    fetch(`${backendUrl}/problems`, {
+ 
+    fetch(`${backendUrl}/api/problem`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -74,7 +77,7 @@ function Problem() {
                   onChange={(e) => {
                     setProblemId(e.target.value);
                   }}
-                  value={problemid}
+                  value={problemId}
                   type="number"
                   name="problemid"
                   placeholder="Enter Problem Id"

@@ -14,7 +14,6 @@ import { AuthProvider } from "./Components/AuthContext";
 import AddProblemWithTestCasesForm from "./admin/ProblemWithTestcases";
 import TestCase from "./admin/Testcase";
 import AdminLogin from "./admin/AdminLogin";
-import DeleteAdmin from "./admin/DeleteAdmin";
 import AddSolution from "./admin/AddSolution";
 import CodeExecution from "./Components/CodeExecution";
 import "@mui/material/styles";
@@ -31,7 +30,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/solution" element={<Solution />} />
           <Route path="/problems/:id" element={<Solution />} />
-          <Route path="/api/admin" element={<AdminPanel />} />
+          <Route path="/admin" element={<AdminPanel />} />
           <Route path="/admin/problem" element={<Problem />} />
           <Route path="/admin/user" element={<Users />} />
           <Route
@@ -40,7 +39,6 @@ function App() {
           />
           <Route path="/admin/testcases" element={<TestCase />} />
           <Route path="/api/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/deleteAdmin" element={<DeleteAdmin />} />
           <Route path="/admin/addsolution" element={<AddSolution />} />
           <Route path="/code/test" element={<CodeExecution />} />
 
