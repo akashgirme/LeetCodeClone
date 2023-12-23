@@ -31,7 +31,6 @@ const problemRouter = require("./routes/problem");
 app.use("/api/problem", problemRouter);
 app.use("/api/problem/:id", problemRouter);
 app.use("/api/problem/solution/:id", problemRouter);
-app.use("/api/problem/submit/:id", problemRouter);
 
 // TestCases Routes
 const testCasesRouter = require("./routes/testcases");
@@ -42,6 +41,7 @@ app.use("/api/testcases", testCasesRouter);
 const submissionRouter = require("./routes/submission");
 
 app.use("/api/submit", submissionRouter);
+app.use("/api/submission/get", submissionRouter);
 
 // <-------------- Admin Panel or Admin Routes --------------------------->
 

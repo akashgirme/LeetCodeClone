@@ -12,4 +12,10 @@ router.post(
   submissionController.handleCodeSubmission,
 );
 
+router.get(
+  "/:id",
+  restrictToLoggedInUserOnly,
+  submissionController.handleGetSubmission,
+);
+
 module.exports = router;

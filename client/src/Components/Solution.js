@@ -12,7 +12,6 @@ function Solution() {
   const [submission, setSubmission] = useState("");
   const [problems, setProblems] = useState([]);
   const [solution, setSolution] = useState();
-  const email = localStorage.getItem("email");
   const [testCases, setTestCases] = useState([]);
 
   const fetchTestCasesForProblem = useCallback(async () => {
@@ -60,28 +59,18 @@ function Solution() {
   };
 
   const fetchSubmission = async () => {
-    const requestBody = {
-      problemId: cleanId,
-      email: email,
-    };
-
     const response = await fetch(
-      `${backendUrl}/api/problem/submission/${cleanId}`,
+      `${backendUrl}/api/submission/get/${cleanId}`,
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
+        method: "GET",
+        credentials: "include",
       },
     );
     if (response.ok) {
-      const SubmissionData = await response.json();
-      setSubmission(SubmissionData);
+      const submissionData = await response.json();
+      setSubmission(submissionData[0].code);
     }
   };
-
-  console.log(testCases);
 
   return (
     <Container fluid className="d-flex w-100 mt-5">
@@ -162,8 +151,8 @@ function Solution() {
               <Tab eventKey="submission" title="Submission">
                 {" "}
                 <div className="p-5">
-                  {submission.code && submission.code.length > 0 ? (
-                    <pre>{submission.code}</pre>
+                  {submission && submission.length > 0 ? (
+                    <pre>{submission}</pre>
                   ) : (
                     <Button
                       type="submit"

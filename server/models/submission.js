@@ -55,6 +55,37 @@ const addSolutionToDB = (problemId, code, email, callback) => {
   );
 };
 
+const getSolutionFromDB = (email, problemId, callback) => {
+  db.query(
+    "SELECT user_id FROM users WHERE email = ?",
+    [email],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        return callback(err, null);
+      }
+
+      const userId = result[0].user_id;
+      console.log(userId, problemId);
+
+      db.query(
+        "SELECT code FROM submission WHERE user_id = ? AND problemid = ?",
+        [userId, problemId],
+        (err, result) => {
+          if (err) {
+            console.log(err);
+            return callback(err, null);
+          } else {
+            console.log(result);
+            return callback(null, result);
+          }
+        },
+      );
+    },
+  );
+};
+
 module.exports = {
   addSolutionToDB,
+  getSolutionFromDB,
 };

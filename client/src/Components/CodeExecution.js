@@ -175,11 +175,6 @@ function CodeExecution(props) {
             onChange={onChange}
             editorDidMount={editorDidMount}
           ></MonacoEditor>
-          {submissionStatus && submissionStatus.length > 0 ? (
-            <p>{submissionStatus}</p>
-          ) : (
-            <></>
-          )}
         </div>
         <div
           className="overflow-auto text-wrap w-100 mt-0 border"
@@ -209,6 +204,13 @@ function CodeExecution(props) {
                 </p>
               </div>
             ))
+          )}
+        </div>
+        <div>
+          {submissionStatus && submissionStatus.length > 0 ? (
+            <p>{submissionStatus}</p>
+          ) : (
+            <></>
           )}
         </div>
         <div className="d-flex flex-column">
