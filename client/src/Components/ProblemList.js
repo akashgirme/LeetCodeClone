@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Container } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { backendUrl } from "./constants";
@@ -11,7 +11,7 @@ function ProblemList() {
 
   useEffect(() => {
     // Fetch data from the server when the component mounts
-    fetch(`${backendUrl}/problems`, {
+    fetch(`${backendUrl}/api/problem`, {
       method: "GET",
     })
       .then((response) => response.json())

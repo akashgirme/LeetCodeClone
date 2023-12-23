@@ -7,7 +7,7 @@ const submissionController = require("../controllers/submission");
 const { restrictToLoggedInUserOnly } = require("../middleware/auth");
 
 router.post(
-  "/",
+  "/:id",
   restrictToLoggedInUserOnly,
   submissionController.handleCodeSubmission,
 );

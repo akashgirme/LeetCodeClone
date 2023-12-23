@@ -1,11 +1,9 @@
 const testCasesModel = require("../models/testcases");
 
-const auth = require("../service/auth");
+const handleGetTestCasesForProblem = (req, res) => {
+  const problemId = parseInt(req.params.id);
 
-const handleGetTestCases = (req, res) => {
-  const problemId = parseInt(req.body.problemId);
-
-  testCasesModel.getTestCasesFromDB(problemId, (err, result) => {
+  testCasesModel.getTestCasesForProblem(problemId, (err, result) => {
     if (err) {
       return res.status(500).json({ message: "Internal Server Error" });
     } else {
@@ -15,5 +13,5 @@ const handleGetTestCases = (req, res) => {
 };
 
 module.exports = {
-  handleGetTestCases,
+  handleGetTestCasesForProblem,
 };

@@ -6,7 +6,7 @@ const auth = require("../service/auth");
 const submissionModel = require("../models/submission");
 
 const handleCodeSubmission = (req, res) => {
-  const problemId = parseInt(req.body.problemId);
+  const problemId = parseInt(req.params.id);
   const code = req.body.code;
   const jwtToken = req.cookies.jwtToken;
   const email = auth.getEmailFromJWT(jwtToken);

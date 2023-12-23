@@ -1,4 +1,5 @@
 const db = require("../connection/database");
+const { json } = require("body-parser");
 
 const addSolutionToDB = (problemId, code, email, callback) => {
   db.query(

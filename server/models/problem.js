@@ -40,8 +40,6 @@ const getSolutionFromDB = (problemId, callback) => {
   );
 };
 
-
-
 module.exports = {
   getProblemsFromDB,
   getProblemsByIDFromDB,

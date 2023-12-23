@@ -1,116 +1,134 @@
-import React, { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
-import { backendUrl } from "./constants";
+import React, { useState, useEffect, useCallback } from "react";
+import { Container, Spinner } from "react-bootstrap";
 import Button from "@mui/material/Button";
+import { backendUrl } from "./constants";
+import MonacoEditor from "react-monaco-editor";
 
 function CodeExecution(props) {
-  const [code, setCode] = useState("");
-  const [testCases, setTestCases] = useState("");
-  const [output, setOutput] = useState("");
-  //  const [ProblemID, setProblemID] = useState('');
-  const [stderr, setStderr] = useState("");
-  const [compileOutput, setCompileOutput] = useState("");
-  const [submissionStatus, setSubmissionStatus] = useState();
-  const ProblemId = props.ProblemId;
-  //const[testcaseInput, setTestcaseInput]= useState();
-  const email = localStorage.getItem("email");
+  const [code, setCode] = useState("// type your code in C++...");
+  const [testCases, setTestCases] = useState([]);
+  const [outputResults, setOutputResults] = useState([]);
+  const [submissionStatus, setSubmissionStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [compileError, setCompileError] = useState(null);
+  const problemId = props.ProblemId;
+  const [canSubmit, setCanSubmit] = useState(false);
 
-  console.log(email);
-  console.log(ProblemId, typeof ProblemId);
-  console.log(output, typeof output);
-  console.log(code);
-  console.log(testCases);
+  const fetchTestCasesForProblem = useCallback(async () => {
+    try {
+      const response = await fetch(`${backendUrl}/api/testcases/${problemId}`);
+      if (response.ok) {
+        const testCasesData = await response.json();
+        setTestCases(testCasesData);
+      } else {
+        console.error("Error fetching test cases");
+        setCompileError("Error fetching test cases");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setCompileError("Error fetching test cases");
+    }
+  }, [problemId]);
 
   useEffect(() => {
     const storedCode = sessionStorage.getItem("code");
     if (storedCode) {
       setCode(storedCode);
     }
-    //setProblemID(ProblemId);
-    // Fetch test cases associated with the specific problem from the server
     fetchTestCasesForProblem();
-  }, [ProblemId]);
-
-  const fetchTestCasesForProblem = async () => {
-    try {
-      // Make a GET request to fetch test cases for the specific problem
-      const response = await fetch(
-        `${backendUrl}/testcasesforProblem/${ProblemId}`,
-      );
-      if (response.ok) {
-        const testCasesData = await response.json();
-        setTestCases(testCasesData);
-      } else {
-        console.error("Error fetching test cases");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  }, [problemId, fetchTestCasesForProblem]);
 
   const executeCode = async () => {
-    // Create a request payload in the required format
-    const requestBody = {
-      language: "c++",
-      version: "10.2.0",
-      runtime: "gcc",
-      files: [
-        {
-          name: "main.cpp",
-          content: code, // Use the code entered in the text box
-        },
-      ],
-      stdin: testCases.map((testCase) => testCase.input).join("\n"), // Use the test cases entered in the text box
-    };
+    setIsLoading(true);
+    setCompileError(null);
+    const results = [];
 
-    try {
-      // Make a POST request to the public API
-      const response = await fetch("https://emkc.org/api/v2/piston/execute", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
+    for (const testCase of testCases) {
+      const requestBody = {
+        language: "c++",
+        version: "10.2.0",
+        runtime: "gcc",
+        files: [
+          {
+            name: "main.cpp",
+            content: code,
+          },
+        ],
+        stdin: testCase.input,
+      };
 
-      if (response.ok) {
-        const result = await response.json();
-        setOutput(result.run.output);
-        setStderr(result.run.stderr);
-        setCompileOutput(result.compile.output);
-      } else {
-        setOutput("Error executing code");
+      try {
+        const response = await fetch("https://emkc.org/api/v2/piston/execute", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+
+          console.log(result);
+
+          if (result.compile && result.compile.output) {
+            setCompileError(result.compile.output);
+            setIsLoading(false);
+            setCanSubmit(false);
+            return;
+          }
+
+          const isTestCasePassed =
+            result.run.output === testCase.Expectedoutput;
+          results.push({
+            testCase,
+            output: result.run.output,
+            isError: result.run.stderr.length > 0,
+          });
+
+          if (!isTestCasePassed) {
+            setCanSubmit(false);
+          } else setCanSubmit(true);
+        } else {
+          const compilationError = await response.json();
+          setCompileError(compilationError.compile.error);
+          setIsLoading(false);
+          setCanSubmit(false);
+
+          return;
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        setCompileError("Error executing code");
+        setIsLoading(false);
+        setCanSubmit(false);
+
+        return;
       }
-    } catch (error) {
-      console.error("Error:", error);
-      setOutput("Error executing code");
     }
+
+    setOutputResults(results);
+    setIsLoading(false);
   };
 
   const submitCode = async () => {
-    // Create a request payload in the required format
     const requestBody = {
-      email: email,
-      problemId: ProblemId,
       code: code,
-      output: output,
     };
 
-    console.log("This is ProblemID inside submitCode", ProblemId);
-
     try {
-      // Make a POST request to the public API
-      const response = await fetch(`${backendUrl}/submit-problem`, {
+      const response = await fetch(`${backendUrl}/api/submit/${problemId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(requestBody),
       });
 
       if (response.ok) {
         const result = await response.json();
-        setSubmissionStatus(result.msg);
+        setSubmissionStatus(result.message);
         setTimeout(() => setSubmissionStatus(""), 4000);
       } else {
         setSubmissionStatus("Error submitting code");
@@ -127,22 +145,41 @@ function CodeExecution(props) {
     sessionStorage.setItem("code", code);
   };
 
+  const editorDidMount = (editor, monaco) => {
+    console.log("editorDidMount", editor);
+    editor.focus();
+  };
+
+  const onChange = (newValue, e) => {
+    console.log("onChange", newValue, e);
+    setCode(newValue);
+  };
+
+  const options = {
+    selectOnLineNumbers: true,
+  };
+
   return (
     <div>
       <Container>
-        <div className="d-flex m-0 p-0">
-          <p className="m-0">Write your code in C++</p>
-        </div>
-        <div className="w-100 ">
-          <textarea
+        <div className="w-100 " style={{ height: "55vh" }}>
+          <MonacoEditor
             className="w-100"
-            style={{ height: "55vh" }}
-            placeholder="Enter your code here"
+            height="55vh"
+            width="100%"
+            language="cpp"
+            theme="vs-dark"
             value={code}
             onBlur={handleCodeBlur}
-            onChange={(e) => setCode(e.target.value)}
-          ></textarea>
-          {submissionStatus ? <p>{submissionStatus}</p> : <></>}
+            options={options}
+            onChange={onChange}
+            editorDidMount={editorDidMount}
+          ></MonacoEditor>
+          {submissionStatus && submissionStatus.length > 0 ? (
+            <p>{submissionStatus}</p>
+          ) : (
+            <></>
+          )}
         </div>
         <div
           className="overflow-auto text-wrap w-100 mt-0 border"
@@ -151,13 +188,27 @@ function CodeExecution(props) {
           <p>
             <strong>Output:</strong>
           </p>
-          {compileOutput ? (
-            <div>
-              <pre class="text-monospace text-danger">{compileOutput}</pre>
-              <pre class="text-monospace text-warning">{stderr}</pre>
-            </div>
+          {isLoading ? (
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Running...</span>
+            </Spinner>
+          ) : compileError ? (
+            <p>
+              <pre class="text-monospace text-danger">{compileError}</pre>
+            </p>
           ) : (
-            <pre>{output}</pre>
+            outputResults.map((result, index) => (
+              <div key={index}>
+                <p>
+                  <strong>Test Case {index + 1}:</strong>
+                  {result.isError
+                    ? "Error in Code Running"
+                    : result.output === result.testCase.Expectedoutput
+                    ? "Passed"
+                    : "Failed"}
+                </p>
+              </div>
+            ))
           )}
         </div>
         <div className="d-flex flex-column">
@@ -168,13 +219,16 @@ function CodeExecution(props) {
               </Button>
             </li>
             <li className="p-2">
-              <Button variant="contained" onClick={submitCode}>
+              <Button
+                variant="contained"
+                onClick={submitCode}
+                disabled={!canSubmit}
+              >
                 Submit
               </Button>
             </li>
           </ul>
         </div>
-        {/*<div>{testCases ? (testCases.map((testcase) => (<pre>{testcase.input}</pre>))): <p>No test Caes</p>}</div> */}
       </Container>
     </div>
   );

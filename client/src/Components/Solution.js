@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, Container, Tabs, Tab } from "react-bootstrap";
 import { useParams } from "react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import CodeExecution from "./CodeExecution";
 import { backendUrl } from "./constants";
 import Button from "@mui/material/Button";
@@ -13,18 +13,33 @@ function Solution() {
   const [problems, setProblems] = useState([]);
   const [solution, setSolution] = useState();
   const email = localStorage.getItem("email");
+  const [testCases, setTestCases] = useState([]);
 
-  console.log(submission);
+  const fetchTestCasesForProblem = useCallback(async () => {
+    try {
+      const response = await fetch(`${backendUrl}/api/testcases/${cleanId}`);
+      if (response.ok) {
+        const testCasesData = await response.json();
+        setTestCases(testCasesData);
+      } else {
+        console.error("Error fetching test cases");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }, [cleanId]);
 
   useEffect(() => {
     // Fetch data from the server when the component mounts
-    fetch(`${backendUrl}/problems/${cleanId}`, {
+    fetch(`${backendUrl}/api/problem/${cleanId}`, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => setProblems(data))
       .catch((error) => console.error("Error fetching data:", error));
-  }, [cleanId]);
+
+    fetchTestCasesForProblem();
+  }, [cleanId, fetchTestCasesForProblem]);
 
   const problem = problems[0];
 
@@ -35,8 +50,9 @@ function Solution() {
 
   const fetchSolution = () => {
     // Fetch data from the server when the component mounts
-    fetch(`${backendUrl}/solution/${cleanId}`, {
+    fetch(`${backendUrl}/api/problem/solution/${cleanId}`, {
       method: "GET",
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => setSolution(data))
@@ -49,18 +65,23 @@ function Solution() {
       email: email,
     };
 
-    const response = await fetch(`${backendUrl}/fetch-submission`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${backendUrl}/api/problem/submission/${cleanId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
       },
-      body: JSON.stringify(requestBody),
-    });
+    );
     if (response.ok) {
       const SubmissionData = await response.json();
       setSubmission(SubmissionData);
     }
   };
+
+  console.log(testCases);
 
   return (
     <Container fluid className="d-flex w-100 mt-5">
@@ -112,7 +133,6 @@ function Solution() {
                       </li>
                     </ul>
                   ) : (
-                    // You can add a loading indicator here, or an error message for failed requests
                     <p>Loading...</p>
                   )}
                 </div>
@@ -141,7 +161,6 @@ function Solution() {
               </Tab>
               <Tab eventKey="submission" title="Submission">
                 {" "}
-                {/* can we desabled with 'disabled' keyword */}
                 <div className="p-5">
                   {submission.code && submission.code.length > 0 ? (
                     <pre>{submission.code}</pre>
@@ -157,6 +176,32 @@ function Solution() {
                 </div>
               </Tab>
             </Tabs>
+          </Row>
+          <Row>
+            <div className="d-flex flex-column mt-4">
+              <h6>
+                <strong>TestCases:</strong>
+              </h6>
+              {testCases && testCases.length > 0 ? (
+                <div className="d-flex">
+                  {testCases.map((testcase, index) => (
+                    <div className="d-flex flex-column m-4">
+                      <p>
+                        <strong>Test Case: {`${index + 1}`}</strong>
+                      </p>
+                      <p>
+                        Test Input: <pre>{testcase.input}</pre>
+                      </p>
+                      <p>
+                        Test Output: <pre>{testcase.Expectedoutput}</pre>
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p> Failed to Load Testcases</p>
+              )}
+            </div>
           </Row>
         </Container>
       </Col>

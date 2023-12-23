@@ -5,7 +5,7 @@ import { backendUrl } from "../Components/constants";
 const AddTestCase = () => {
   const [problemId, setProblemId] = useState("");
   const [testCases, setTestCases] = useState([
-    { Input: "", ExpectedOutput: "" },
+    { input: "", expectedOutput: "" },
   ]);
 
   const handleAddTestCase = () => {
@@ -27,14 +27,17 @@ const AddTestCase = () => {
     };
 
     try {
-      const response = await fetch(`${backendUrl}/api/admin/testcases/addTestCases`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${backendUrl}/api/admin/testcases/addTestCases`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(data),
         },
-        credentials: "include",
-        body: JSON.stringify(data),
-      });
+      );
 
       if (response.ok) {
         const result = await response.json();
@@ -67,19 +70,19 @@ const AddTestCase = () => {
             <div key={index}>
               <label>Input:</label>
               <textarea
-                value={testCase.Input}
+                value={testCase.input}
                 onChange={(e) => {
                   const updatedTestCases = [...testCases];
-                  updatedTestCases[index].Input = e.target.value;
+                  updatedTestCases[index].input = e.target.value;
                   setTestCases(updatedTestCases);
                 }}
               />
               <label>Expected Output:</label>
               <textarea
-                value={testCase.ExpectedOutput}
+                value={testCase.expectedOutput}
                 onChange={(e) => {
                   const updatedTestCases = [...testCases];
-                  updatedTestCases[index].ExpectedOutput = e.target.value;
+                  updatedTestCases[index].expectedOutput = e.target.value;
                   setTestCases(updatedTestCases);
                 }}
               />

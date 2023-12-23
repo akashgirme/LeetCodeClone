@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { backendUrl } from "../Components/constants";
+import { Grid, Box } from "@mui/material";
+import { TextField, Typography, Button, Stack } from "@mui/material";
 
 function AddSolution() {
   const [problemId, setProblemId] = useState("");
@@ -7,7 +9,7 @@ function AddSolution() {
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     const data = { problemId: problemId, solution: solution };
 
@@ -39,30 +41,37 @@ function AddSolution() {
   };
 
   return (
-    <div>
-      <h2>Add Solution for a Problem</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Problem ID:</label>
-          <input
-            type="number"
-            value={problemId}
-            onChange={(e) => setProblemId(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Solution Text:</label>
-          <textarea
-            value={solution}
-            onChange={(e) => setSolution(e.target.value)}
-            required
-          />
-        </div>
-        {error && <p className="error-message">{error}</p>}
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+    <Grid container>
+      <Grid item>
+        <Stack spacing={2}>
+          <h2>Add Solution for a Problem</h2>
+          <Box>
+            <TextField
+              type="number"
+              variant="outlined"
+              label="Problem ID"
+              value={problemId}
+              onChange={(e) => setProblemId(e.target.value)}
+              required
+            />
+          </Box>
+          <Box>
+            <label>Add / Enter Solution</label>
+            <textarea
+              value={solution}
+              onChange={(e) => setSolution(e.target.value)}
+              required
+            />
+          </Box>
+          <Typography variant="h5">
+            {error && <p className="error-message">{error}</p>}
+          </Typography>
+          <Button variant="contained" onclick={handleSubmit}>
+            Add Solution
+          </Button>
+        </Stack>
+      </Grid>
+    </Grid>
   );
 }
 

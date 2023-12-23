@@ -23,19 +23,16 @@ function Problem() {
       });
 
       if (response.ok) {
-        
-        setProblemId(""); 
+        setProblemId("");
         setError("Problem deleted successfully");
-        
+
         fetchProblems();
-       
+
         setTimeout(() => setError(""), 2000);
-
       } else {
-
         const data = await response.json();
         setError(data.msg);
-       
+
         setTimeout(() => setError(""), 2000);
       }
     } catch (error) {
@@ -44,7 +41,6 @@ function Problem() {
   };
 
   const fetchProblems = () => {
- 
     fetch(`${backendUrl}/api/problem`, {
       method: "GET",
     })

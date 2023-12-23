@@ -25,7 +25,7 @@ const handleGetProblemByID = (req, res) => {
 };
 
 const handleGetProblemSolution = (req, res) => {
-  const problemId = parseInt(req.body.problemId);
+  const problemId = parseInt(req.params.id);
 
   console.log(problemId);
 
@@ -37,7 +37,6 @@ const handleGetProblemSolution = (req, res) => {
     }
   });
 };
-
 
 module.exports = {
   handleGetProblems,

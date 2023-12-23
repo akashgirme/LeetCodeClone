@@ -1,6 +1,6 @@
 const db = require("../connection/database");
 
-const getTestCasesFromDB = (problemId, callback) => {
+const getTestCasesForProblem = (problemId, callback) => {
   db.query(
     "SELECT * FROM testcases WHERE problemid = ?",
     [problemId],
@@ -15,5 +15,5 @@ const getTestCasesFromDB = (problemId, callback) => {
 };
 
 module.exports = {
-  getTestCasesFromDB,
+  getTestCasesForProblem,
 };
