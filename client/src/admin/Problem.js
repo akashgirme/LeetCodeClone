@@ -99,7 +99,7 @@ function Problem() {
                   {problems && problems.length > 0 ? (
                     problems.map((prob, index) => (
                       <tr>
-                        <td>{prob.problemid}</td>
+                        <td>{prob.problem_id}</td>
                         <td>{prob.title}</td>
                       </tr>
                     ))

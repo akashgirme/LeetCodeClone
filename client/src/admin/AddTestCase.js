@@ -9,7 +9,7 @@ const AddTestCase = () => {
   ]);
 
   const handleAddTestCase = () => {
-    setTestCases([...testCases, { Input: "", ExpectedOutput: "" }]);
+    setTestCases([...testCases, { input: "", expectedOutput: "" }]);
   };
 
   const handleRemoveTestCase = (index) => {

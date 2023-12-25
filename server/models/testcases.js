@@ -2,7 +2,7 @@ const db = require("../connection/database");
 
 const getTestCasesForProblem = (problemId, callback) => {
   db.query(
-    "SELECT * FROM testcases WHERE problemid = ?",
+    "SELECT * FROM testcase WHERE problem_id = ?",
     [problemId],
     (err, result) => {
       if (err) {

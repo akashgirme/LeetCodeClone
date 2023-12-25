@@ -47,8 +47,6 @@ const handleGetSubmission = (req, res) => {
   const jwtToken = req.cookies.jwtToken;
   const email = auth.getEmailFromJWT(jwtToken);
 
-  console.log(problemId);
-
   submissionModel.getSolutionFromDB(email, problemId, (err, result) => {
     if (err) {
       return res.status(500).json({ message: "Internal Server Error" });

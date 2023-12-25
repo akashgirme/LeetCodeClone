@@ -109,14 +109,14 @@ function TestCase() {
                 {TestCases && TestCases.length > 0 ? (
                   TestCases.map((Case, index) => (
                     <tr>
-                      <td>{Case.problemid}</td>
-                      <td>{Case.testcaseid}</td>
+                      <td>{Case.problem_id}</td>
+                      <td>{Case.testcase_id}</td>
                       <td>
                         <pre>{Case.input}</pre>
                       </td>{" "}
                       {/* <pre> tag is used to preserve text fromatting</pre> */}
                       <td>
-                        <pre>{Case.Expectedoutput}</pre>
+                        <pre>{Case.expected_output}</pre>
                       </td>
                     </tr>
                   ))

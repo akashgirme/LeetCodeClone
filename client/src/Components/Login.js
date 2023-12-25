@@ -43,7 +43,7 @@ const Login = () => {
         const token = data.jwtToken;
         Cookies.set("jwtToken", token);
         localStorage.setItem("email", email);
-        login(email, token); // Set the user and token upon successful login
+        login(email); // Set the user and token upon successful login
         setError(null); // Clear any previous errors
         navigate("/");
       } else {

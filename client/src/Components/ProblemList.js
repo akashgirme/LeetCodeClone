@@ -9,6 +9,8 @@ import Grid from "@mui/material/Grid";
 function ProblemList() {
   const [problems, setProblems] = useState([]);
 
+  console.log(backendUrl);
+
   useEffect(() => {
     // Fetch data from the server when the component mounts
     fetch(`${backendUrl}/api/problem`, {
@@ -25,16 +27,13 @@ function ProblemList() {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th width="5%">
+              <th width="10%">
                 <Typography variant="h6">ID</Typography>
               </th>
-              <th width="55%">
+              <th width="65%">
                 <Typography variant="h6">Title</Typography>
               </th>
-              <th width="20%">
-                <Typography variant="h6">Solution</Typography>
-              </th>
-              <th width="20%">
+              <th width="25%">
                 <Typography variant="h6">Difficulty</Typography>
               </th>
             </tr>
@@ -46,20 +45,17 @@ function ProblemList() {
                 <tr>
                   <td>
                     <Typography variant="subtitle1">
-                      {prob.problemid}
+                      {prob.problem_id}
                     </Typography>
                   </td>
                   <Link
-                    to={`/problems/:${prob.problemid}`}
+                    to={`/problems/:${prob.problem_id}`}
                     className="d-flex align-items-center"
                   >
                     <td>
                       <Typography variant="subtitle1">{prob.title}</Typography>
                     </td>
                   </Link>
-                  <td>
-                    <Typography variant="subtitle1">Solution Link</Typography>
-                  </td>
                   <td>
                     <Typography variant="subtitle1">
                       {prob.difficulty}

@@ -63,8 +63,7 @@ app.use("/api/admin/testcases/testCasesForProblem", adminTestCaseRouter);
 app.use("/api/admin/testcases/addTestCases", adminTestCaseRouter);
 app.use("/api/admin/testcase/deleteTestCases", adminTestCaseRouter);
 
-
 //Port Mapping
 app.listen(process.env.PORT || port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });

@@ -1,7 +1,7 @@
 const db = require("../connection/database");
 
 const getProblemsFromDB = (callback) => {
-  db.query("SELECT * FROM problems", (error, result) => {
+  db.query("SELECT * FROM problem", (error, result) => {
     if (error) {
       return callback(error, null);
     } else {
@@ -12,7 +12,7 @@ const getProblemsFromDB = (callback) => {
 
 const getProblemsByIDFromDB = (problemId, callback) => {
   db.query(
-    "SELECT * FROM problems WHERE problemid = ?",
+    "SELECT * FROM problem WHERE problem_id = ?",
     [problemId],
     (error, result) => {
       if (error) {
@@ -26,7 +26,7 @@ const getProblemsByIDFromDB = (problemId, callback) => {
 
 const getSolutionFromDB = (problemId, callback) => {
   db.query(
-    "SELECT * FROM solutions WHERE problemid = ?",
+    "SELECT * FROM solution WHERE problem_id = ?",
     [problemId],
     (getSolutionErr, getSolutionResult) => {
       if (getSolutionErr) {

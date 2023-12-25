@@ -11,7 +11,7 @@ function CodeExecution(props) {
   const [submissionStatus, setSubmissionStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [compileError, setCompileError] = useState(null);
-  const problemId = props.ProblemId;
+  const problemId = props.problemId;
   const [canSubmit, setCanSubmit] = useState(false);
 
   const fetchTestCasesForProblem = useCallback(async () => {
@@ -21,11 +21,9 @@ function CodeExecution(props) {
         const testCasesData = await response.json();
         setTestCases(testCasesData);
       } else {
-        console.error("Error fetching test cases");
         setCompileError("Error fetching test cases");
       }
     } catch (error) {
-      console.error("Error:", error);
       setCompileError("Error fetching test cases");
     }
   }, [problemId]);
@@ -69,8 +67,6 @@ function CodeExecution(props) {
         if (response.ok) {
           const result = await response.json();
 
-          console.log(result);
-
           if (result.compile && result.compile.output) {
             setCompileError(result.compile.output);
             setIsLoading(false);
@@ -79,7 +75,7 @@ function CodeExecution(props) {
           }
 
           const isTestCasePassed =
-            result.run.output === testCase.Expectedoutput;
+            result.run.output === testCase.expected_output;
           results.push({
             testCase,
             output: result.run.output,
@@ -146,12 +142,10 @@ function CodeExecution(props) {
   };
 
   const editorDidMount = (editor, monaco) => {
-    console.log("editorDidMount", editor);
     editor.focus();
   };
 
   const onChange = (newValue, e) => {
-    console.log("onChange", newValue, e);
     setCode(newValue);
   };
 
@@ -198,7 +192,7 @@ function CodeExecution(props) {
                   <strong>Test Case {index + 1}:</strong>
                   {result.isError
                     ? "Error in Code Running"
-                    : result.output === result.testCase.Expectedoutput
+                    : result.output === result.testCase.expected_output
                     ? "Passed"
                     : "Failed"}
                 </p>

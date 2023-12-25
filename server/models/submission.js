@@ -3,7 +3,7 @@ const { json } = require("body-parser");
 
 const addSolutionToDB = (problemId, code, email, callback) => {
   db.query(
-    "SELECT user_id FROM users WHERE email = ?",
+    "SELECT user_id FROM user WHERE email = ?",
     [email],
     (getUserIdErr, getUserIdResult) => {
       if (getUserIdErr) {
@@ -19,7 +19,7 @@ const addSolutionToDB = (problemId, code, email, callback) => {
       const userId = getUserIdResult[0].user_id;
 
       db.query(
-        "SELECT * FROM submission WHERE user_id = ? AND problemid = ?",
+        "SELECT * FROM submission WHERE user_id = ? AND problem_id = ?",
         [userId, problemId],
         (existingSubmissionErr, existingSubmissionResults) => {
           if (existingSubmissionErr) {
@@ -38,7 +38,7 @@ const addSolutionToDB = (problemId, code, email, callback) => {
           }
 
           db.query(
-            "INSERT INTO submission (user_id, problemid, code) VALUES (?, ?, ?)",
+            "INSERT INTO submission (user_id, problem_id, code) VALUES (?, ?, ?)",
             [userId, problemId, code],
             (insertErr, insertResult) => {
               if (insertErr) {
@@ -57,7 +57,7 @@ const addSolutionToDB = (problemId, code, email, callback) => {
 
 const getSolutionFromDB = (email, problemId, callback) => {
   db.query(
-    "SELECT user_id FROM users WHERE email = ?",
+    "SELECT user_id FROM user WHERE email = ?",
     [email],
     (err, result) => {
       if (err) {
@@ -66,17 +66,15 @@ const getSolutionFromDB = (email, problemId, callback) => {
       }
 
       const userId = result[0].user_id;
-      console.log(userId, problemId);
 
       db.query(
-        "SELECT code FROM submission WHERE user_id = ? AND problemid = ?",
+        "SELECT code FROM submission WHERE user_id = ? AND problem_id = ?",
         [userId, problemId],
         (err, result) => {
           if (err) {
             console.log(err);
             return callback(err, null);
           } else {
-            console.log(result);
             return callback(null, result);
           }
         },

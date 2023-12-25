@@ -1,7 +1,7 @@
 const db = require("../connection/database");
 
 const getUserFromDB = (callback) => {
-  db.query("SELECT * FROM users", (err, result) => {
+  db.query("SELECT * FROM user", (err, result) => {
     if (err) {
       console.error("MySQL query error:", err);
       callback(err, null);
@@ -13,7 +13,7 @@ const getUserFromDB = (callback) => {
 
 const checkExistingUserFromDB = (userData, callback) => {
   db.query(
-    "SELECT * FROM users WHERE email = ?",
+    "SELECT * FROM user WHERE email = ?",
     [userData.email],
     (err, result) => {
       if (err) {
@@ -27,7 +27,7 @@ const checkExistingUserFromDB = (userData, callback) => {
 
 const registerUserToDB = (userData, hashedPassword, callback) => {
   db.query(
-    "INSERT INTO users (email, password) VALUES (?, ?)",
+    "INSERT INTO user (email, password) VALUES (?, ?)",
     [userData.email, hashedPassword],
     (err, result) => {
       if (err) {
@@ -42,7 +42,7 @@ const registerUserToDB = (userData, hashedPassword, callback) => {
 
 const loginUserDB = (userData, callback) => {
   db.query(
-    "SELECT * FROM users WHERE email = ?",
+    "SELECT * FROM user WHERE email = ?",
     [userData.email],
     (err, result) => {
       if (err) {

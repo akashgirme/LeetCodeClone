@@ -1,7 +1,7 @@
 const db = require("../../connection/database");
 
 const getTestCasesFromDB = (callback) => {
-  db.query("SELECT * FROM testcases", (err, result) => {
+  db.query("SELECT * FROM testcase", (err, result) => {
     if (err) {
       console.error("MySQL query error:", err);
       return callback(err, null);
@@ -13,7 +13,7 @@ const getTestCasesFromDB = (callback) => {
 
 const getTestCaseByIdFromDB = (problemId, callback) => {
   db.query(
-    "SELECT * FROM testcases WHERE problemid = ?",
+    "SELECT * FROM testcase WHERE problem_id = ?",
     [problemId],
     (err, result) => {
       if (err) {
@@ -28,7 +28,7 @@ const getTestCaseByIdFromDB = (problemId, callback) => {
 
 const addTestCaseToDB = (problemId, testCases, callback) => {
   db.query(
-    "SELECT * FROM problems WHERE problemid = ?",
+    "SELECT * FROM problem WHERE problem_id = ?",
     [problemId],
     (problemQueryError, results) => {
       if (problemQueryError) {
@@ -49,7 +49,7 @@ const addTestCaseToDB = (problemId, testCases, callback) => {
 
       // Insert the test cases into the `testcases` table using bulk insertion
       db.query(
-        "INSERT INTO testcases (Problemid, input, Expectedoutput) VALUES ?",
+        "INSERT INTO testcase (problem_id, input, expected_output) VALUES ?",
         [testCasesValues],
         (testCaseInsertError, insertionSuccess) => {
           if (testCaseInsertError) {
@@ -67,7 +67,7 @@ const addTestCaseToDB = (problemId, testCases, callback) => {
 const deleteTestCaseFromDB = (testCaseId, callback) => {
   // Check if the test case with the specified `testcaseid` exists
   db.query(
-    "SELECT * FROM testcases WHERE testcaseid = ?",
+    "SELECT * FROM testcase WHERE testcase_id = ?",
     [testCaseId],
     (err, results) => {
       if (err) {
@@ -82,7 +82,7 @@ const deleteTestCaseFromDB = (testCaseId, callback) => {
 
       // If a test case with the specified `testcaseid` exists, delete it
       db.query(
-        "DELETE FROM testcases WHERE testcaseid = ?",
+        "DELETE FROM testcase WHERE testcase_id = ?",
         [testCaseId],
         (err, results) => {
           if (err) {
@@ -91,7 +91,7 @@ const deleteTestCaseFromDB = (testCaseId, callback) => {
           }
 
           // Fetch updated test cases after deletion
-          db.query("SELECT * FROM testcases", (fetchErr, updatedTestCases) => {
+          db.query("SELECT * FROM testcase", (fetchErr, updatedTestCases) => {
             if (fetchErr) {
               console.error("MySQL query error:", fetchErr);
               return callback(fetchErr, null);

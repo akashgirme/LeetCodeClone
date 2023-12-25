@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 
 function Solution() {
   const { id } = useParams();
-  const cleanId = id.substring(1);
+  const problemId = id.substring(1);
   const [submission, setSubmission] = useState("");
   const [problems, setProblems] = useState([]);
   const [solution, setSolution] = useState();
@@ -16,7 +16,7 @@ function Solution() {
 
   const fetchTestCasesForProblem = useCallback(async () => {
     try {
-      const response = await fetch(`${backendUrl}/api/testcases/${cleanId}`);
+      const response = await fetch(`${backendUrl}/api/testcases/${problemId}`);
       if (response.ok) {
         const testCasesData = await response.json();
         setTestCases(testCasesData);
@@ -26,11 +26,11 @@ function Solution() {
     } catch (error) {
       console.error("Error:", error);
     }
-  }, [cleanId]);
+  }, [problemId]);
 
   useEffect(() => {
     // Fetch data from the server when the component mounts
-    fetch(`${backendUrl}/api/problem/${cleanId}`, {
+    fetch(`${backendUrl}/api/problem/${problemId}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -38,7 +38,7 @@ function Solution() {
       .catch((error) => console.error("Error fetching data:", error));
 
     fetchTestCasesForProblem();
-  }, [cleanId, fetchTestCasesForProblem]);
+  }, [problemId, fetchTestCasesForProblem]);
 
   const problem = problems[0];
 
@@ -49,7 +49,7 @@ function Solution() {
 
   const fetchSolution = () => {
     // Fetch data from the server when the component mounts
-    fetch(`${backendUrl}/api/problem/solution/${cleanId}`, {
+    fetch(`${backendUrl}/api/problem/solution/${problemId}`, {
       method: "GET",
       credentials: "include",
     })
@@ -60,15 +60,35 @@ function Solution() {
 
   const fetchSubmission = async () => {
     const response = await fetch(
-      `${backendUrl}/api/submission/get/${cleanId}`,
+      `${backendUrl}/api/submission/get/${problemId}`,
       {
         method: "GET",
         credentials: "include",
       },
     );
+
     if (response.ok) {
-      const submissionData = await response.json();
-      setSubmission(submissionData[0].code);
+      try {
+        const submissionData = await response.json();
+
+        if (submissionData && submissionData.length > 0) {
+          const getSubmission = submissionData[0];
+
+          if (getSubmission.code) {
+            setSubmission(getSubmission.code);
+          } else {
+            setSubmission("No Submission Found For Problem");
+          }
+        } else {
+          setSubmission("No submission Found For Problem");
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+        setSubmission("Error Fetching Submission Data");
+      }
+    } else {
+      console.error("Response not OK:", response.statusText);
+      setSubmission("Error Fetching Submission Data");
     }
   };
 
@@ -88,7 +108,7 @@ function Solution() {
                     <ul className="list-unstyle">
                       <li>
                         <strong>Problem Id: </strong>
-                        {problem.problemid}
+                        {problem.problem_id}
                       </li>
                       <li>
                         <strong>Title: </strong>
@@ -105,20 +125,20 @@ function Solution() {
                         <strong>Example Input:</strong>
                         <br />
                         <pre className="px-5 pt-2 text-monospace">
-                          {problem.exampleinput}
+                          {problem.example_input}
                         </pre>
                       </li>
                       <li>
                         <strong>Example Output</strong>
                         <br />
                         <pre className="px-5 pt-2 text-monospace">
-                          {problem.exampleoutput}
+                          {problem.example_output}
                         </pre>
                       </li>
                       <li>
                         <strong>Explanation</strong>
                         <br />
-                        {problem.exampleexplanation}
+                        {problem.example_explanation}
                       </li>
                     </ul>
                   ) : (
@@ -132,7 +152,7 @@ function Solution() {
                     <div>
                       {solution.map((sol, index) => (
                         <div>
-                          <pre>{sol.solution_text}</pre>
+                          <pre>{sol.solution}</pre>
                         </div>
                         // <pre> For preserving text Format </pre>
                       ))}
@@ -182,7 +202,7 @@ function Solution() {
                         Test Input: <pre>{testcase.input}</pre>
                       </p>
                       <p>
-                        Test Output: <pre>{testcase.Expectedoutput}</pre>
+                        Test Output: <pre>{testcase.expected_output}</pre>
                       </p>
                     </div>
                   ))}
@@ -195,7 +215,7 @@ function Solution() {
         </Container>
       </Col>
       <Col sm md lg="6">
-        <CodeExecution ProblemId={cleanId} />
+        <CodeExecution problemId={problemId} />
       </Col>
     </Container>
   );

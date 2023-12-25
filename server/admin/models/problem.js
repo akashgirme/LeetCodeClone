@@ -3,7 +3,7 @@ const db = require("../../connection/database");
 
 const deleteTestCasesByProblemIdFromDB = (problemId, callback) => {
   db.query(
-    "SELECT * FROM problems WHERE problemid = ?",
+    "SELECT * FROM problem WHERE problem_id = ?",
     [problemId],
     (err, result) => {
       if (err) {
@@ -16,7 +16,7 @@ const deleteTestCasesByProblemIdFromDB = (problemId, callback) => {
       }
 
       db.query(
-        "DELETE FROM testcases WHERE ProblemId = ?",
+        "DELETE FROM testcase WHERE problem_id = ?",
         [problemId],
         (error, result) => {
           if (error) {
@@ -36,7 +36,7 @@ const deleteTestCasesByProblemIdFromDB = (problemId, callback) => {
 
 const deleteSubmissionFromDB = (problemId, callback) => {
   db.query(
-    "DELETE FROM submission WHERE problemid = ?",
+    "DELETE FROM submission WHERE problem_id = ?",
     [problemId],
     (error, result) => {
       if (error) {
@@ -54,7 +54,7 @@ const deleteSubmissionFromDB = (problemId, callback) => {
 
 const deleteProblemFromDB = (problemId, callback) => {
   db.query(
-    "DELETE FROM problems WHERE problemid = ?",
+    "DELETE FROM problem WHERE problem_id = ?",
     [problemId],
     (error, result) => {
       if (error) {
@@ -72,7 +72,7 @@ const deleteProblemFromDB = (problemId, callback) => {
 
 const addSolutionToDB = (problemId, solution, callback) => {
   db.query(
-    "SELECT * FROM problems WHERE problemid = ?",
+    "SELECT * FROM problem WHERE problem_id = ?",
     [problemId],
     (problemErr, problemResult) => {
       if (problemErr) {
@@ -89,7 +89,7 @@ const addSolutionToDB = (problemId, solution, callback) => {
 
       // Insert the solution into the database
       db.query(
-        "INSERT INTO solutions (problemid, solution_text) VALUES (?, ?)",
+        "INSERT INTO solution (problem_id, solution) VALUES (?, ?)",
         [problemId, solution],
         (solutionErr, solutionResult) => {
           if (solutionErr) {
@@ -123,7 +123,7 @@ const addProblemToDB = (problemData, testCases, callback) => {
 
     // Insert the problem details into the "problems" table
     db.query(
-      "INSERT INTO problems (title, difficulty, description, exampleinput, exampleoutput, exampleexplanation) VALUES (?, ?, ?, ?, ?, ?)",
+      "INSERT INTO problem (title, difficulty, description, example_input, example_output, example_explanation) VALUES (?, ?, ?, ?, ?, ?)",
       [
         problemData.title,
         problemData.difficulty,
@@ -142,7 +142,7 @@ const addProblemToDB = (problemData, testCases, callback) => {
         }
 
         db.query(
-          "SELECT * FROM problems WHERE title = ?",
+          "SELECT * FROM problem WHERE title = ?",
           [problemData.title],
           (err, result) => {
             if (err) {
@@ -155,7 +155,7 @@ const addProblemToDB = (problemData, testCases, callback) => {
 
             // Insert the test cases into the "testcases" table
             const testCasesInsertQuery =
-              "INSERT INTO testcases (Problemid, input, Expectedoutput) VALUES ?";
+              "INSERT INTO testcase (problem_id, input, expected_output) VALUES ?";
             const testCasesValues = testCases.map((testCase) => [
               problemId,
               testCase.input,

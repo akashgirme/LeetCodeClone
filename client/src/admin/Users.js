@@ -44,8 +44,9 @@ function Users() {
 
   const fetchUsers = () => {
     // Fetch data from the server when the component mounts
-    fetch(`${backendUrl}/users`, {
+    fetch(`${backendUrl}/api/user`, {
       method: "GET",
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => setUsers(data))
@@ -101,7 +102,7 @@ function Users() {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="5">No problems available.</td>
+                        <td colSpan="5">No Users available.</td>
                       </tr>
                     )}
                   </tbody>

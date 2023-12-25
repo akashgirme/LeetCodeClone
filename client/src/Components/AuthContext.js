@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
@@ -9,14 +10,16 @@ export const useAuth = () => {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
+  const token = Cookies.get("jwtToken");
+
   const login = (email) => {
-    setUser(email);
+    if (token) setUser(email);
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem("email");
-    localStorage.clear();
+    Cookies.remove("jwtToken");
   };
 
   return (
