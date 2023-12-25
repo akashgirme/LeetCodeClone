@@ -9,8 +9,6 @@ import Grid from "@mui/material/Grid";
 function ProblemList() {
   const [problems, setProblems] = useState([]);
 
-  console.log(backendUrl);
-
   useEffect(() => {
     // Fetch data from the server when the component mounts
     fetch(`${backendUrl}/api/problem`, {

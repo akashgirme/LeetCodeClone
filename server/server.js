@@ -1,12 +1,15 @@
 const express = require("express");
 const app = express();
 const port = 5000;
+require("dotenv").config();
+
 
 // Body Parser to Sending and Receiving request Body;
 const bodyParser = require("body-parser");
 
 const cors = require("cors");
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+const clientURL = process.env.CLIENT_URL;
+app.use(cors({ credentials: true, origin: clientURL }));
 
 // Json Parser For Passing Json
 var jsonParser = bodyParser.json();
