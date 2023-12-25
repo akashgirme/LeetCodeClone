@@ -1,0 +1,7 @@
+
+{
+    "routes": [
+      { "src": "https://leet.akashgirme.me", "dest": "https://server.akashgirme.me" }
+    ]
+}
+  
