@@ -60,7 +60,7 @@ const handleLoginUser = (req, res) => {
         res.cookie("jwtToken", jwtToken, {
           httpOnly: true, // Cookie is accessible only by the web server
           sameSite: 'none',
-          domain:'.akashgirme.me' // Protect against CSRF attacks
+          domain:'backend.akashgirme.me' // Protect against CSRF attacks
         });
         return res.json({ jwtToken, message: "Login Successful" });
       } else {
