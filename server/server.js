@@ -20,7 +20,7 @@ const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 //
-
+/*
 app.use((req, res, next) => {
 
   res.cookie('jwtToken', jwtToken, { sameSite: 'None', secure: false });
@@ -30,6 +30,8 @@ app.use((req, res, next) => {
   next();
 });
 
+
+*/
 
 //<------------------------User Routes --------------------------->
 
@@ -45,7 +47,10 @@ const problemRouter = require("./routes/problem");
 
 app.use("/api/problem", problemRouter);
 app.use("/api/problem/:id", problemRouter);
-app.use("/api/problem/solution/:id", problemRouter);
+app.use("/api/problem/solution/:id", (req, res, next) => {
+  res.cookie('jwtToken', jwtToken, { sameSite: 'None', secure: false });
+  next();
+}, problemRouter);
 
 // TestCases Routes
 const testCasesRouter = require("./routes/testcases");
