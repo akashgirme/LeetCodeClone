@@ -19,6 +19,15 @@ app.use(jsonParser);
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
+
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', clientURL);
+  res.header('Access-Control-Allow-Credentials', true); 
+  next();
+});
+
+
 //
 /*
 app.use((req, res, next) => {
