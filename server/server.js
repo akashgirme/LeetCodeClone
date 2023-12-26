@@ -3,6 +3,9 @@ const app = express();
 const port = 5000;
 require("dotenv").config();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 // Body Parser to Sending and Receiving request Body;
 const bodyParser = require("body-parser");
@@ -69,7 +72,7 @@ app.use("/api/problem/solution/:id", (req, res, next) => {
     httpOnly: true,
     sameSite: 'None', 
     secure: true });
-    
+
   next();
 }, problemRouter);
 
