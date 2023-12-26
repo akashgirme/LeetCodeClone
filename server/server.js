@@ -34,7 +34,7 @@ const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 
-
+/*
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", clientURL);
@@ -42,6 +42,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+*/
 //<------------------------User Routes --------------------------->
 
 // User Routes
