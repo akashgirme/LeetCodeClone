@@ -8,8 +8,16 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 
 const cors = require("cors");
-const clientURL = process.env.CLIENT_URL;
-app.use(cors({ credentials: true, origin: clientURL }));
+const clientURL = process.env.CLIENT_URL; 
+
+console.log(clientURL, typeof(clientURL));
+
+app.use(cors({ 
+  origin: ["http://localhost:3000", clientURL],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
+
 
 // Json Parser For Passing Json
 var jsonParser = bodyParser.json();
