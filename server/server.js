@@ -3,7 +3,6 @@ const app = express();
 const port = 5000;
 require("dotenv").config();
 
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -31,28 +30,6 @@ const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', clientURL);
-  res.header('Access-Control-Allow-Credentials', true); 
-  next();
-});
-
-
-//
-/*
-app.use((req, res, next) => {
-
-  res.cookie('jwtToken', jwtToken, { sameSite: 'None', secure: false });
-
-  res.cookie('adminJwtToken', adminJwtToken, { sameSite: 'None', secure: false });
-
-  next();
-});
-
-
-*/
-
 //<------------------------User Routes --------------------------->
 
 // User Routes
@@ -67,14 +44,7 @@ const problemRouter = require("./routes/problem");
 
 app.use("/api/problem", problemRouter);
 app.use("/api/problem/:id", problemRouter);
-app.use("/api/problem/solution/:id", (req, res, next) => {
-  res.cookie('jwtToken', jwtToken, { 
-    httpOnly: true,
-    sameSite: 'None', 
-    secure: true });
-
-  next();
-}, problemRouter);
+app.use("/api/problem/solution/:id", problemRouter);
 
 // TestCases Routes
 const testCasesRouter = require("./routes/testcases");
