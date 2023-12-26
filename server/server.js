@@ -56,12 +56,12 @@ const problemRouter = require("./routes/problem");
 
 app.use("/api/problem", problemRouter);
 app.use("/api/problem/:id", problemRouter);
-app.use("/api/problem/solution/:id", (req, res, next) => {
+app.use("/api/problem/solution/:id", //(req, res, next) => {
 
-  res.cookie('jwtToken', jwtToken, { domain: '.akashgirme.me', path: '/', sameSite: 'None', secure: true });
-  next();
+  //res.cookie('jwtToken', jwtToken, { domain: '.akashgirme.me', path: '/', sameSite: 'None', secure: true });
+  //next();
 
-},
+//},
 problemRouter);
 
 // TestCases Routes
