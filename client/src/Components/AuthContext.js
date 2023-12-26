@@ -22,6 +22,7 @@ export function AuthProvider({ children }) {
     Cookies.remove("jwtToken");
   };
 
+
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
       {children}

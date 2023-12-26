@@ -19,6 +19,18 @@ app.use(jsonParser);
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
+//
+
+app.use((req, res, next) => {
+
+  res.cookie('jwtToken', jwtToken, { sameSite: 'None', secure: false });
+
+  res.cookie('adminJwtToken', adminJwtToken, { sameSite: 'None', secure: false });
+
+  next();
+});
+
+
 //<------------------------User Routes --------------------------->
 
 // User Routes
@@ -41,6 +53,7 @@ const testCasesRouter = require("./routes/testcases");
 app.use("/api/testcases", testCasesRouter);
 
 //Submission Routes
+
 const submissionRouter = require("./routes/submission");
 
 app.use("/api/submit", submissionRouter);
