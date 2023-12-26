@@ -51,6 +51,7 @@ function Solution() {
     // Fetch data from the server when the component mounts
     fetch(`${backendUrl}/api/problem/solution/${problemId}`, {
       method: "GET",
+      withCredentials: true,
       credentials: "include",
     })
       .then((response) => response.json())
