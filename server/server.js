@@ -18,6 +18,7 @@ app.use(cors({
   origin: ["http://localhost:3000", clientURL],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
+  exposeHeaders:['Set-Cookie']
 }));
 
 
@@ -45,7 +46,7 @@ const problemRouter = require("./routes/problem");
 app.use("/api/problem", problemRouter);
 app.use("/api/problem/:id", problemRouter);
 app.use("/api/problem/solution/:id", (req, res, next) => {
-  
+
   res.cookie('jwtToken', jwtToken, { domain: '.akashgirme.me', path: '/', sameSite: 'None', secure: true });
   next();
 
