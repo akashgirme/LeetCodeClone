@@ -25,11 +25,14 @@ function ProblemList() {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th width="65%">
-                <Typography variant="h6">Title</Typography>
+              <th width='5%'>
+                <Typography variant="h6" style={{padding:'10px 0px', margin:'0 0.5rem'}}>Status</Typography>
+              </th>
+              <th width="60%">
+                <Typography variant="h6" style={{padding:'10px 0px', margin:'0 0.5rem'}}>Title</Typography>
               </th>
               <th width="25%">
-                <Typography variant="h6">Difficulty</Typography>
+                <Typography variant="h6" style={{padding:'10px 0px', margin:'0 0.5rem'}}>Difficulty</Typography>
               </th>
             </tr>
           </thead>
@@ -38,16 +41,19 @@ function ProblemList() {
             {problems && problems.length > 0 ? (
               problems.map((prob, index) => (
                 <tr>
+                  <td>
+                    ......
+                  </td>
                   <Link style={{textDecoration:'none'}}
                     to={`/problems/:${prob.problem_id}`}
                     className="d-flex align-items-center"
                   >
                     <td>
-                      <Typography variant="subtitle1">{index +1 }. {prob.title}</Typography>
+                      <Typography variant="subtitle1" style={{padding:'10px 0px', margin:'0 0.5rem'}}>{index +1 }. {prob.title}</Typography>
                     </td>
                   </Link>
                   <td>
-                    <Typography variant="subtitle1">
+                    <Typography variant="subtitle1" style={{padding:'10px 0px', margin:'0 0.5rem'}}>
                       {prob.difficulty}
                     </Typography>
                   </td>

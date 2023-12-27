@@ -101,7 +101,7 @@ function Solution() {
 
   return (
     <Container fluid className="d-flex w-100 mt-5">
-      <Col sm lg md="6">
+      <Col sm lg md xl="6">
         <Container>
           <Row>
             <Tabs
@@ -221,7 +221,7 @@ function Solution() {
           </Row>
         </Container>
       </Col>
-      <Col sm md lg="6">
+      <Col sm md lg xl="6">
         <CodeExecution problemId={problemId} />
       </Col>
     </Container>
