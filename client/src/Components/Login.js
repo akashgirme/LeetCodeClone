@@ -1,5 +1,4 @@
 import React from "react";
-import Cookies from "js-cookie";
 import { useState } from "react";
 import { useAuth } from "./AuthContext";
 import { useNavigate } from "react-router";
@@ -41,7 +40,7 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         const token = data.jwtToken;
-        Cookies.set("jwtToken", token);
+        localStorage.setItem("jwtToken", token);
         localStorage.setItem("email", email);
         login(email); // Set the user and successful login
         setError(null); // Clear any previous errors
@@ -81,6 +80,7 @@ const Login = () => {
               variant="outlined"
               size="large"
               sx={{ width: "100%" }}
+              name={email}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -90,6 +90,7 @@ const Login = () => {
               label="Enter Password"
               variant="outlined"
               type="password"
+              name={password}
               sx={{ width: "100%" }}
               onChange={(e) => {
                 setPassword(e.target.value);

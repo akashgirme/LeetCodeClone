@@ -1,15 +1,20 @@
 const { getUserAuth } = require("../service/auth");
 
 async function restrictToLoggedInUserOnly(req, res, next) {
-  const jwtToken = req.cookies.jwtToken;
-  
-  if (!jwtToken) {
-    return res.json({ message: "Error! Please re-Login to get Access" });
+
+  const authorizationHeaderValue = req.headers['authorization'];
+  if(!authorizationHeaderValue || !authorizationHeaderValue.startsWith('Bearer')){
+    return res.json({message:' Please re-login!'});
   }
 
-  const user = getUserAuth(jwtToken);
+  const token = authorizationHeaderValue.split('Bearer ')[1];
+  console.log(token);
 
-  if (!user) return res.redirect("/api/user/login");
+  const user = getUserAuth(token);
+
+  if(!user){
+    return res.json({message:'Error'});
+  }
 
   req.user = user;
 
@@ -17,18 +22,24 @@ async function restrictToLoggedInUserOnly(req, res, next) {
 }
 
 async function restrictToLoggedInAdminOnly(req, res, next) {
-  const jwtToken = req.cookies.adminJwtToken;
 
-  if (!jwtToken) {
-    return res.json({ message: "Error! Please re-Login to get Access" });
+  const authorizationHeaderValue = req.headers['authorization'];
+
+  if(!authorizationHeaderValue || !authorizationHeaderValue.startsWith('Bearer')){
+    return res.json({message:' Please re-login!'});
   }
 
-  const admin = getUserAuth(jwtToken);
+  const token = authorizationHeaderValue.split('Bearer ')[1];
+  const admin = getUserAuth(token);
 
-  if (!admin) return res.redirect("/api/admin/login");
+  if(!admin){
+    return res.json({message:'Error'});
+  }
 
   req.admin = admin;
+
   next();
+
 }
 
 module.exports = {

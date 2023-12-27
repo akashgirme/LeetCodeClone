@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { Container } from "react-bootstrap";
 import { backendUrl } from "../Components/constants";
-import Cookies from "js-cookie";
 
 function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -24,12 +23,10 @@ function AdminLogin() {
       if (response.ok) {
         const data = await response.json();
         const token = data.adminJwtToken;
-        Cookies.set("adminJwtToken", token);
-        localStorage.setItem("adminEmail", email);
         localStorage.setItem("adminJwtToken", token);
+        localStorage.setItem("adminEmail", email);
         setError(null); // Clear any previous errors
         navigate("/admin");
-        window.location.href = "/admin"; // Replace with your admin panel route
       } else {
         setError("Invalid email or password");
       }

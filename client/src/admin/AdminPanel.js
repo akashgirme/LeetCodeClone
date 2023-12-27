@@ -16,7 +16,7 @@ function AdminPanel() {
   };
 
   if (!authenticated) {
-    navigate("/api/admin/login");
+    navigate("/admin/login");
   }
 
   return (

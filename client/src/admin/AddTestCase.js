@@ -8,6 +8,8 @@ const AddTestCase = () => {
     { input: "", expectedOutput: "" },
   ]);
 
+  const token = localStorage.getItem('adminJwtToken');
+
   const handleAddTestCase = () => {
     setTestCases([...testCases, { input: "", expectedOutput: "" }]);
   };
@@ -32,9 +34,9 @@ const AddTestCase = () => {
         {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          credentials: "include",
           body: JSON.stringify(data),
         },
       );

@@ -7,6 +7,7 @@ function AddSolution() {
   const [problemId, setProblemId] = useState("");
   const [solution, setSolution] = useState("");
   const [error, setError] = useState("");
+  const token = localStorage.getItem('adminJwtToken');
 
   const handleSubmit = async (e) => {
     // e.preventDefault();
@@ -19,9 +20,9 @@ function AddSolution() {
         {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          credentials: "include",
           body: JSON.stringify(data),
         },
       );

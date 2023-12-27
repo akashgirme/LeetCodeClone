@@ -7,12 +7,14 @@ function Users() {
   const [users, setUsers] = useState();
   const [user_id, setUser_id] = useState();
   const [error, setError] = useState();
+  const token = localStorage.getItem('adminJwtToken');
 
   const DeleteUser = async () => {
     try {
       const response = await fetch(`${backendUrl}/deleteUser`, {
         method: "DELETE",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
 
@@ -46,7 +48,9 @@ function Users() {
     // Fetch data from the server when the component mounts
     fetch(`${backendUrl}/api/user`, {
       method: "GET",
-      credentials: "include",
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
     })
       .then((response) => response.json())
       .then((data) => setUsers(data))

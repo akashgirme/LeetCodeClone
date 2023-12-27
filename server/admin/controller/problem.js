@@ -55,7 +55,6 @@ const handleAddSolution = (req, res) => {
 
 const handleAddProblem = (req, res) => {
   const problemData = req.body;
-
   const testCases = req.body.testCases;
 
   adminProblemModel.addProblemToDB(problemData, testCases, (err, result) => {

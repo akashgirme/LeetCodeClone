@@ -9,14 +9,16 @@ function Problem() {
   const [problems, setProblems] = useState([]);
   const [error, setError] = useState("");
 
+  const token = localStorage.getItem('adminJwtToken');
+
   const DeleteProblem = async () => {
     try {
       const response = await fetch(`${backendUrl}/api/admin/problem/delete`, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify({
           problemId: problemId,
         }),

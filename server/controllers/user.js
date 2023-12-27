@@ -56,12 +56,6 @@ const handleLoginUser = (req, res) => {
 
       if (isMatch) {
         const jwtToken = auth.setUserAuth(user);
-
-        res.cookie("jwtToken", jwtToken, {
-          httpOnly: true, // Cookie is accessible only by the web server
-          sameSite: 'none',
-          domain:'.akashgirme.me'
-        });
         return res.json({ jwtToken, message: "Login Successful" });
       } else {
         return res.status(401).json({ message: "Incorrect Password" });

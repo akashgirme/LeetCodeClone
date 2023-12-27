@@ -13,10 +13,12 @@ function Solution() {
   const [problems, setProblems] = useState([]);
   const [solution, setSolution] = useState();
   const [testCases, setTestCases] = useState([]);
+  const token = localStorage.getItem('jwtToken');
 
   const fetchTestCasesForProblem = useCallback(async () => {
     try {
-      const response = await fetch(`${backendUrl}/api/testcases/${problemId}`);
+      const response = await fetch(`${backendUrl}/api/testcases/${problemId}`, { method: 'GET'});
+
       if (response.ok) {
         const testCasesData = await response.json();
         setTestCases(testCasesData);
@@ -51,7 +53,9 @@ function Solution() {
     // Fetch data from the server when the component mounts
     fetch(`${backendUrl}/api/problem/solution/${problemId}`, {
       method: "GET",
-      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
     })
       .then((response) => response.json())
       .then((data) => setSolution(data))
@@ -64,6 +68,9 @@ function Solution() {
       {
         method: "GET",
         credentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       },
     );
 

@@ -21,13 +21,8 @@ const handleAdminLogin = (req, res) => {
 
     if (storedPassword === adminData.password) {
       const adminJwtToken = auth.setUserAuth(admin);
-
-      res.cookie("adminJwtToken", adminJwtToken, {
-        httpOnly: true, // Cookie is accessible only by the web server
-        sameSite: "Strict", // Protect against CSRF attacks
-      });
-
       return res.json({ adminJwtToken, message: "Admin Login Successful" });
+      
     } else {
       return res.status(401).json({ message: "Incorrect Password" });
     }

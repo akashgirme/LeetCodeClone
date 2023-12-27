@@ -8,8 +8,9 @@ const submissionModel = require("../models/submission");
 const handleCodeSubmission = (req, res) => {
   const problemId = parseInt(req.params.id);
   const code = req.body.code;
-  const jwtToken = req.cookies.jwtToken;
-  const email = auth.getEmailFromJWT(jwtToken);
+  const email = req.user.email;
+  
+  console.log(email);
 
   submissionModel.addSolutionToDB(
     problemId,
@@ -45,7 +46,9 @@ const handleCodeSubmission = (req, res) => {
 const handleGetSubmission = (req, res) => {
   const problemId = parseInt(req.params.id);
   const jwtToken = req.cookies.jwtToken;
-  const email = auth.getEmailFromJWT(jwtToken);
+  const email = req.user.email;
+
+  console.log(email);
 
   submissionModel.getSolutionFromDB(email, problemId, (err, result) => {
     if (err) {

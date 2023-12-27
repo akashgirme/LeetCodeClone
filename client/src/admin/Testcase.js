@@ -8,6 +8,8 @@ function TestCase() {
   const [testCaseId, setTestCaseId] = useState("");
   const [error, setError] = useState("");
   const [TestCases, setTestCases] = useState();
+  const token = localStorage.getItem('adminJwtToken');
+
 
   const deleteTestCase = async () => {
     try {
@@ -16,6 +18,7 @@ function TestCase() {
         {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           credentials: "include",
@@ -45,7 +48,11 @@ function TestCase() {
     // Fetch data from the server when the component mounts
     fetch(`${backendUrl}/api/admin/testcases`, {
       method: "GET",
-      credentials: "include",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+
+      
     })
       .then((response) => response.json())
       .then((data) => {

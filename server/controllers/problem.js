@@ -26,7 +26,6 @@ const handleGetProblemByID = (req, res) => {
 
 const handleGetProblemSolution = (req, res) => {
   const problemId = parseInt(req.params.id);
-  console.log(problemId);
 
   problemModel.getSolutionFromDB(problemId, (err, result) => {
     if (err) {

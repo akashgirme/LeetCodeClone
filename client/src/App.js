@@ -38,7 +38,7 @@ function App() {
             element={<AddProblemWithTestCasesForm />}
           />
           <Route path="/admin/testcases" element={<TestCase />} />
-          <Route path="/api/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/addsolution" element={<AddSolution />} />
           <Route path="/code/test" element={<CodeExecution />} />
 

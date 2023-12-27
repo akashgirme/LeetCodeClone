@@ -15,6 +15,8 @@ const AddProblemWithTestCasesForm = () => {
     { input: "", expectedOutput: "" },
   ]);
 
+  const token = localStorage.getItem('adminJwtToken');
+
   const handleAddTestCase = () => {
     setTestCases([...testCases, { input: "", expectedOutput: "" }]);
   };
@@ -48,9 +50,9 @@ const AddProblemWithTestCasesForm = () => {
       const response = await fetch(`${backendUrl}/api/admin/problem/add`, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify(data),
       });
 

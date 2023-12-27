@@ -4,29 +4,28 @@ require("dotenv").config();
 const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
 function setUserAuth(user) {
-  return jwt.sign(
-    {
-      email: user.email,
-    },
-    jwtSecretKey,
-  );
+  return jwt.sign( { email: user.email }, jwtSecretKey );
 }
 
-function getUserAuth(jwtToken) {
-  if (!jwtToken) return null;
+function getUserAuth(token) {
+  if (!token) return null;
 
   try {
-    return jwt.verify(jwtToken, jwtSecretKey);
+    const payload = jwt.verify(token, jwtSecretKey);
+    return payload;
   } catch (error) {
     return null;
   }
 }
 
-function getEmailFromJWT(jwtToken) {
-  if (!jwtToken) return null;
+
+/*
+
+function getEmailFromJWT(token) {
+  if (!token) return null;
 
   try {
-    const decodedToken = jwt.decode(jwtToken, { complete: true });
+    const decodedToken = jwt.decode(token, { complete: true });
     if (!decodedToken) return null;
 
     const email = decodedToken.payload.email;
@@ -36,8 +35,11 @@ function getEmailFromJWT(jwtToken) {
   }
 }
 
+
+*/
+
+
 module.exports = {
   setUserAuth,
-  getUserAuth,
-  getEmailFromJWT,
+  getUserAuth
 };

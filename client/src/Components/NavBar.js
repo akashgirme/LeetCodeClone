@@ -36,7 +36,7 @@ function NavBar() {
           <Nav>
             <Box className="d-flex justify-content-end">
               <Nav.Link>
-                {user ? (
+                {user && user.length > 0 ? (
                   <Box className="d-flex p-0 m-0">
                     <Box className="d-flex py-3 px-2 m-0">
                       <Typography variant="body">Welcome,</Typography>
