@@ -157,10 +157,10 @@ function CodeExecution(props) {
   return (
     <div>
       <Container>
-        <div className="w-100 " style={{ height: "55vh" }}>
+        <div className="w-100 " style={{ height: "60vh" }}>
           <MonacoEditor
             className="w-100"
-            height="55vh"
+            height="60vh"
             width="100%"
             language="cpp"
             theme="vs-dark"

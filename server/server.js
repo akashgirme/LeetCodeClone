@@ -2,10 +2,6 @@ const express = require("express");
 const app = express();
 const port =  process.env.PORT || 5000;
 require("dotenv").config();
-var path = require('path')
-
-
-
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -15,7 +11,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const clientURL = process.env.CLIENT_URL; 
 
-console.log(clientURL, typeof(clientURL));
 
 app.use(cors({ 
   origin: ["http://localhost:3000", clientURL],
