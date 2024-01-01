@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Table, Col, Row, Container } from "react-bootstrap";
 import AdminPanel from "./AdminPanel";
 import { backendUrl } from "../Components/constants";
@@ -7,7 +7,7 @@ function Users() {
   const [users, setUsers] = useState();
   const [user_id, setUser_id] = useState();
   const [error, setError] = useState();
-  const token = localStorage.getItem('adminJwtToken');
+  const token = localStorage.getItem("adminJwtToken");
 
   const DeleteUser = async () => {
     try {
@@ -44,23 +44,21 @@ function Users() {
     }
   };
 
-  const fetchUsers = () => {
-    // Fetch data from the server when the component mounts
+  const fetchUsers = useCallback(() => {
     fetch(`${backendUrl}/api/user`, {
       method: "GET",
-      headers:{
-        Authorization: `Bearer ${token}`
-      }
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => setUsers(data))
       .catch((error) => console.error("Error fetching data:", error));
-  };
+  }, [token]);
 
   useEffect(() => {
-    // Initial load of the problem list
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
 
   return (
     <Container className="mt-5">

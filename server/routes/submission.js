@@ -18,6 +18,10 @@ router.get(
   submissionController.handleGetSubmission,
 );
 
-router.get('/user', restrictToLoggedInUserOnly, submissionController.handleGetSubmissionsForUsers)
+router.get(
+  "/user",
+  restrictToLoggedInUserOnly,
+  submissionController.handleGetSubmissionsForUsers,
+);
 
 module.exports = router;

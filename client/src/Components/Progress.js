@@ -1,23 +1,21 @@
-import React, { useState } from 'react';
-import LinearProgress from '@mui/material/LinearProgress';
-import Typography from '@mui/material/Typography';
+import React, { useState } from "react";
+import LinearProgress from "@mui/material/LinearProgress";
+import Typography from "@mui/material/Typography";
 
 import { useEffect } from "react";
 import { backendUrl } from "./constants";
 
 const Progress = () => {
-
   const [totalSubmissions, setTotalSubmissions] = useState(0);
   const [totalProblems, setTotalProblems] = useState(0);
   const progress = (totalSubmissions / totalProblems) * 100;
-  const token = localStorage.getItem('jwtToken');
-
+  const token = localStorage.getItem("jwtToken");
 
   const fetchSubmissionForUser = () => {
     fetch(`${backendUrl}/api/submit/user`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
@@ -41,7 +39,7 @@ const Progress = () => {
     };
 
     fetchProblems();
-  }, []);
+  }, [fetchSubmissionForUser]);
 
   return (
     <div>
@@ -52,9 +50,9 @@ const Progress = () => {
       <LinearProgress
         variant="determinate"
         value={progress}
-        sx={{ width: '100%', marginBottom: 2 }}
+        sx={{ width: "100%", marginBottom: 2 }}
       />
-      
+
       <Typography variant="body2" color="textSecondary">
         {Math.round(progress)}% completed
       </Typography>

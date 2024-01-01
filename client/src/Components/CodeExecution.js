@@ -13,7 +13,7 @@ function CodeExecution(props) {
   const [compileError, setCompileError] = useState(null);
   const problemId = props.problemId;
   const [canSubmit, setCanSubmit] = useState(false);
-  const token = localStorage.getItem('jwtToken');
+  const token = localStorage.getItem("jwtToken");
 
   const fetchTestCasesForProblem = useCallback(async () => {
     try {
@@ -114,14 +114,17 @@ function CodeExecution(props) {
     };
 
     try {
-      const response = await fetch(`${backendUrl}/api/submit/add/${problemId}`, {
-        method: "POST",
-        headers: {
-          Authorization:`Bearer ${token}`,
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${backendUrl}/api/submit/add/${problemId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
         },
-        body: JSON.stringify(requestBody),
-      });
+      );
 
       if (response.ok) {
         const result = await response.json();

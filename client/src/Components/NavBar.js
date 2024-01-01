@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
@@ -7,9 +8,16 @@ import { useAuth } from "./AuthContext";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { AuthProvider } from "./AuthContext";
 
 function NavBar() {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth(AuthProvider);
+
+  useEffect(() => {
+    console.log("User state changed:", user);
+  }, [user]);
+
+  console.log(user);
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -36,10 +44,10 @@ function NavBar() {
           <Nav>
             <Box className="d-flex justify-content-end">
               <Nav.Link>
-                {user && user.length > 0 ? (
+                {user && user.length ? (
                   <Box className="d-flex p-0 m-0">
                     <Box className="d-flex py-3 px-2 m-0">
-                      <Typography variant="body">Welcome,</Typography>
+                      <Typography variant="body">Welcome, </Typography>
                       {user}!
                     </Box>
                     <Button

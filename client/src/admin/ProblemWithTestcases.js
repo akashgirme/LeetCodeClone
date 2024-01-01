@@ -15,7 +15,7 @@ const AddProblemWithTestCasesForm = () => {
     { input: "", expectedOutput: "" },
   ]);
 
-  const token = localStorage.getItem('adminJwtToken');
+  const token = localStorage.getItem("adminJwtToken");
 
   const handleAddTestCase = () => {
     setTestCases([...testCases, { input: "", expectedOutput: "" }]);

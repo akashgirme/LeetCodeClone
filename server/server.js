@@ -1,23 +1,22 @@
 const express = require("express");
 const app = express();
-const port =  process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 require("dotenv").config();
 app.use(express.urlencoded({ extended: true }));
-
 
 // Body Parser to Sending and Receiving request Body;
 const bodyParser = require("body-parser");
 
 const cors = require("cors");
-const clientURL = process.env.CLIENT_URL; 
+const clientURL = process.env.CLIENT_URL;
 
-
-app.use(cors({ 
-  origin: ["http://localhost:3000", clientURL],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-}));
-
+app.use(
+  cors({
+    origin: ["http://localhost:3000", clientURL],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
 
 // Json Parser For Passing Json
 var jsonParser = bodyParser.json();
@@ -27,11 +26,12 @@ app.use(jsonParser);
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-
-
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", clientURL);
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept",
+  );
   next();
 });
 
@@ -49,13 +49,15 @@ const problemRouter = require("./routes/problem");
 
 app.use("/api/problem", problemRouter);
 app.use("/api/problem/:id", problemRouter);
-app.use("/api/problem/solution/:id", //(req, res, next) => {
+app.use(
+  "/api/problem/solution/:id", //(req, res, next) => {
 
   //res.cookie('jwtToken', jwtToken, { domain: '.akashgirme.me', path: '/', sameSite: 'None', secure: true });
   //next();
 
-//},
-problemRouter);
+  //},
+  problemRouter,
+);
 
 // TestCases Routes
 const testCasesRouter = require("./routes/testcases");

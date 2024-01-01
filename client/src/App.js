@@ -18,10 +18,8 @@ import AddSolution from "./admin/AddSolution";
 import CodeExecution from "./Components/CodeExecution";
 import "@mui/material/styles";
 
-
 function App() {
   return (
-  
     <AuthProvider>
       <Router>
         <NavBar />
@@ -44,11 +42,9 @@ function App() {
           <Route path="/admin/addsolution" element={<AddSolution />} />
           <Route path="/code/test" element={<CodeExecution />} />
           <Route path="*" element={<Notfound />} />
-
         </Routes>
       </Router>
     </AuthProvider>
-
   );
 }
 

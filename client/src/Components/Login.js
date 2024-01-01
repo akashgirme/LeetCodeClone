@@ -43,8 +43,9 @@ const Login = () => {
         localStorage.setItem("jwtToken", token);
         localStorage.setItem("email", email);
         login(email); // Set the user and successful login
-        setError(null); // Clear any previous errors
         navigate("/");
+        setError(null); // Clear any previous errors
+        handleRefresh();
       } else {
         setError("Invalid email or password");
       }
@@ -52,6 +53,10 @@ const Login = () => {
       console.error("Login error:", error);
       setError("An error occurred. Please try again later.");
     }
+  };
+
+  const handleRefresh = () => {
+    window.location.reload(false);
   };
 
   return (

@@ -7,7 +7,7 @@ function AddSolution() {
   const [problemId, setProblemId] = useState("");
   const [solution, setSolution] = useState("");
   const [error, setError] = useState("");
-  const token = localStorage.getItem('adminJwtToken');
+  const token = localStorage.getItem("adminJwtToken");
 
   const handleSubmit = async (e) => {
     // e.preventDefault();

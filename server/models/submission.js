@@ -83,28 +83,34 @@ const getSolutionFromDB = (email, problemId, callback) => {
   );
 };
 
-
 const getSubmissionForUser = (email, callback) => {
-
-  db.query('SELECT user_id FROM user WHERE email = ?' ,[email], (err, result)=>{
-    if(err){
-      return callback(err, null);
-    }
-    
-    const userId = result[0].user_id;
-
-    db.query('SELECT * FROM submission WHERE user_id = ?', [userId], (err, result) => {
-      if(err){
+  db.query(
+    "SELECT user_id FROM user WHERE email = ?",
+    [email],
+    (err, result) => {
+      if (err) {
         return callback(err, null);
-      } else {
-        return callback(null, result);
       }
-    })
-  })
-}
+
+      const userId = result[0].user_id;
+
+      db.query(
+        "SELECT * FROM submission WHERE user_id = ?",
+        [userId],
+        (err, result) => {
+          if (err) {
+            return callback(err, null);
+          } else {
+            return callback(null, result);
+          }
+        },
+      );
+    },
+  );
+};
 
 module.exports = {
   addSolutionToDB,
   getSolutionFromDB,
-  getSubmissionForUser
+  getSubmissionForUser,
 };

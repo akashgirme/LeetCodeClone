@@ -9,7 +9,7 @@ function Problem() {
   const [problems, setProblems] = useState([]);
   const [error, setError] = useState("");
 
-  const token = localStorage.getItem('adminJwtToken');
+  const token = localStorage.getItem("adminJwtToken");
 
   const DeleteProblem = async () => {
     try {

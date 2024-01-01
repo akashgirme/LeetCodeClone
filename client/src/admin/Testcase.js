@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Container, Table, Row, Col } from "react-bootstrap";
 import AdminPanel from "./AdminPanel";
 import AddTestCase from "./AddTestCase";
@@ -8,8 +8,7 @@ function TestCase() {
   const [testCaseId, setTestCaseId] = useState("");
   const [error, setError] = useState("");
   const [TestCases, setTestCases] = useState();
-  const token = localStorage.getItem('adminJwtToken');
-
+  const token = localStorage.getItem("adminJwtToken");
 
   const deleteTestCase = async () => {
     try {
@@ -44,15 +43,12 @@ function TestCase() {
     }
   };
 
-  const fetchTestCases = () => {
-    // Fetch data from the server when the component mounts
+  const fetchTestCases = useCallback(() => {
     fetch(`${backendUrl}/api/admin/testcases`, {
       method: "GET",
-      headers:{
+      headers: {
         Authorization: `Bearer ${token}`,
-      }
-
-      
+      },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -60,12 +56,11 @@ function TestCase() {
         setTestCases(data);
       })
       .catch((error) => console.error("Error fetching data:", error));
-  };
+  }, [token]);
 
   useEffect(() => {
-    // Initial load of the problem list
     fetchTestCases();
-  }, []);
+  }, [fetchTestCases]);
 
   return (
     <div className="mx-3 mt-5">

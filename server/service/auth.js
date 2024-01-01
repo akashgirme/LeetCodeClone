@@ -4,9 +4,8 @@ require("dotenv").config();
 const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
 function setUserAuth(user) {
-  return jwt.sign( { email: user.email }, jwtSecretKey );
+  return jwt.sign({ email: user.email }, jwtSecretKey);
 }
-
 
 function getUserAuth(token) {
   if (!token) return null;
@@ -19,8 +18,7 @@ function getUserAuth(token) {
   }
 }
 
-
 module.exports = {
   setUserAuth,
-  getUserAuth
+  getUserAuth,
 };
