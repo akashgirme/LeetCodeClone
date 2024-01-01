@@ -7,6 +7,7 @@ function setUserAuth(user) {
   return jwt.sign( { email: user.email }, jwtSecretKey );
 }
 
+
 function getUserAuth(token) {
   if (!token) return null;
 
@@ -17,26 +18,6 @@ function getUserAuth(token) {
     return null;
   }
 }
-
-
-/*
-
-function getEmailFromJWT(token) {
-  if (!token) return null;
-
-  try {
-    const decodedToken = jwt.decode(token, { complete: true });
-    if (!decodedToken) return null;
-
-    const email = decodedToken.payload.email;
-    return email;
-  } catch (error) {
-    return null;
-  }
-}
-
-
-*/
 
 
 module.exports = {

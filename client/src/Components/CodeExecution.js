@@ -114,7 +114,7 @@ function CodeExecution(props) {
     };
 
     try {
-      const response = await fetch(`${backendUrl}/api/submit/${problemId}`, {
+      const response = await fetch(`${backendUrl}/api/submit/add/${problemId}`, {
         method: "POST",
         headers: {
           Authorization:`Bearer ${token}`,

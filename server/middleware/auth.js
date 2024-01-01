@@ -8,8 +8,7 @@ async function restrictToLoggedInUserOnly(req, res, next) {
   }
 
   const token = authorizationHeaderValue.split('Bearer ')[1];
-  console.log(token);
-
+  
   const user = getUserAuth(token);
 
   if(!user){

@@ -18,8 +18,10 @@ import AddSolution from "./admin/AddSolution";
 import CodeExecution from "./Components/CodeExecution";
 import "@mui/material/styles";
 
+
 function App() {
   return (
+  
     <AuthProvider>
       <Router>
         <NavBar />
@@ -41,18 +43,12 @@ function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/addsolution" element={<AddSolution />} />
           <Route path="/code/test" element={<CodeExecution />} />
-
-          {/* Here If we click on Problem Link ->> Link set path as "/problemList/id" but we dont
-              want only description page of that problem hence whenever path become "/problemList/id"
-              we routed to solution page and then solution page create route for description according
-              to id of problem 
-            */}
-
           <Route path="*" element={<Notfound />} />
-          {/* If no path match for any Link tag "*" we route to Notfound Component */}
+
         </Routes>
       </Router>
     </AuthProvider>
+
   );
 }
 

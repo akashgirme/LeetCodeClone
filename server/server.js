@@ -67,7 +67,7 @@ app.use("/api/testcases", testCasesRouter);
 const submissionRouter = require("./routes/submission");
 
 app.use("/api/submit", submissionRouter);
-app.use("/api/submission/get", submissionRouter);
+app.use("/api/submit", submissionRouter);
 
 // <-------------- Admin Panel or Admin Routes --------------------------->
 

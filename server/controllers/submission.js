@@ -45,7 +45,6 @@ const handleCodeSubmission = (req, res) => {
 
 const handleGetSubmission = (req, res) => {
   const problemId = parseInt(req.params.id);
-  const jwtToken = req.cookies.jwtToken;
   const email = req.user.email;
 
   console.log(email);
@@ -59,7 +58,21 @@ const handleGetSubmission = (req, res) => {
   });
 };
 
+const handleGetSubmissionsForUsers = (req, res) => {
+  const email = req.user.email;
+
+  submissionModel.getSubmissionForUser(email, (err, result) => {
+    if(err){
+      return res.status(500).json({message:'Internal Server Error'})
+    } else {
+      return res.status(200).json(result);
+    }
+  })
+
+}
+
 module.exports = {
   handleCodeSubmission,
   handleGetSubmission,
+  handleGetSubmissionsForUsers
 };

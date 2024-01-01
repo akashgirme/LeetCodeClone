@@ -1,11 +1,9 @@
 import React from "react";
-import { Row, Col, Container } from "react-bootstrap";
 import { useParams } from "react-router";
 import { useState, useEffect, useCallback } from "react";
 import CodeExecution from "./CodeExecution";
 import { backendUrl } from "./constants";
 import Button from "@mui/material/Button";
-
 import Typography from "@mui/material/Typography";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -19,8 +17,9 @@ function Solution() {
   const [problems, setProblems] = useState([]);
   const [solution, setSolution] = useState();
   const [testCases, setTestCases] = useState([]);
-  const token = localStorage.getItem('jwtToken');
   const [value, setValue] = useState(0);
+  const token = localStorage.getItem('jwtToken');
+  
 
   const fetchTestCasesForProblem = useCallback(async () => {
     try {
@@ -70,7 +69,7 @@ function Solution() {
 
   const fetchSubmission = async () => {
     const response = await fetch(
-      `${backendUrl}/api/submission/get/${problemId}`,
+      `${backendUrl}/api/submit/get/${problemId}`,
       {
         method: "GET",
         credentials: "include",
@@ -112,10 +111,10 @@ function Solution() {
 
 
   return (
-    <Grid container fluid mt='1rem' mx='0.5rem' className="d-flex w-100">
-      <Grid item sm lg md xl="6">
-        <Container>
-          <Row>
+    <Grid container fluid mt='1rem' px='0.5rem' className="d-flex w-100">
+      <Grid item sm lg='6' md='6' xl="6">
+        <Grid container display='flex' flexDirection='column'>
+          <Grid item>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
               <Tab label="Description" />
               <Tab label="Solution" />
@@ -143,14 +142,14 @@ function Solution() {
                       <li>
                         <Typography variant="body1"><strong>Example Input: </strong></Typography>
                         <br />
-                        <pre px='1rem' pt='0.5rem' className="text-monospace">
+                        <pre pt='0.5rem' className="text-monospace">
                           {problem.example_input}
                         </pre>
                       </li>
                       <li>
                         <Typography variant="body1"><strong>Example Output: </strong></Typography>
                         <br />
-                        <pre px='1rem' pt='0.5rem' className="text-monospace">
+                        <pre pt='0.5rem' className="text-monospace">
                           {problem.example_output}
                         </pre>
                       </li>
@@ -167,13 +166,13 @@ function Solution() {
 
                 <Box hidden={value !== 1} className="p-5" mt='1rem'>
                   {solution && solution.length > 0 ? (
-                    <div>
+                    <Box>
                       {solution.map((sol, index) => (
-                        <div>
+                        <Box>
                           <pre>{sol.solution}</pre>
-                        </div>
+                        </Box>
                       ))}
-                    </div>
+                    </Box>
                   ) : (
                     <Button
                       type="submit"
@@ -198,38 +197,38 @@ function Solution() {
                     </Button>
                   )}
                 </Box>
-          </Row>
-          <Row>
-            <div className="d-flex flex-column mt-4">
-              <h6>
+          </Grid>
+          <Grid item>
+            <Box className="d-flex flex-column mt-4">
+              <Typography variant="h6">
                 <strong>TestCases:</strong>
-              </h6>
+              </Typography>
               {testCases && testCases.length > 0 ? (
-                <div className="d-flex">
+                <Box display='flex'>
                   {testCases.map((testcase, index) => (
-                    <div className="d-flex flex-column m-4">
-                      <p>
+                    <Box display='flex' flexDirection='column' m='1rem'>
+                      <Typography variant="body1">
                         <strong>Test Case: {`${index + 1}`}</strong>
-                      </p>
-                      <p>
+                      </Typography>
+                      <Typography variant="body1">
                         Test Input: <pre>{testcase.input}</pre>
-                      </p>
-                      <p>
+                      </Typography>
+                      <Typography variant="body1">
                         Test Output: <pre>{testcase.expected_output}</pre>
-                      </p>
-                    </div>
+                      </Typography>
+                    </Box>
                   ))}
-                </div>
+                </Box>
               ) : (
-                <p> Failed to Load Testcases</p>
+                <Typography variant="subtitle1"> Failed to Load Testcases</Typography>
               )}
-            </div>
-          </Row>
-        </Container>
+            </Box>
+          </Grid>
+        </Grid>
       </Grid>
-      <Col sm md lg xl="6">
+      <Grid item sm md='6' lg='6' xl="6">
         <CodeExecution problemId={problemId} />
-      </Col>
+      </Grid>
     </Grid>
   );
 }

@@ -11,10 +11,7 @@ function Home() {
           <ProblemList />
         </Col>
         <Col md="3" lg="2">
-          <Progress 
-          solvedProblems={5}
-          totalProblems={25}
-          />
+          <Progress />
         </Col>
       </Row>
     </Container>
