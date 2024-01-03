@@ -148,7 +148,7 @@ const addProblemToDB = (problemData, testCases, callback) => {
             if (err) {
               return callback(err, null);
             }
-            problemId = result[0].problemid;
+            problemId = result[0].problem_id;
 
             // Get the auto-generated ProblemId from the inserted problem
             // const problemId = problemInsertResults.insertId;
