@@ -47,7 +47,7 @@ function AdminPanel() {
             </ul>
           </div>
         ) : (
-          <Link to="/api/admin/login">
+          <Link to="/admin/login">
             <h5>Login as admin</h5>
           </Link>
         )}
